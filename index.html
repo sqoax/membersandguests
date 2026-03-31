@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Members & Guests — Your membership, everywhere.</title>
+<meta name="description" content="A private network connecting country club members across the country. Host and play at clubs you've never belonged to.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Members & Guests — Your membership, everywhere.">
+<meta property="og:description" content="A private network for country club members to host and play at clubs across the country.">
+<meta property="og:url" content="https://membersandguests.com">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Members & Guests — Your membership, everywhere.">
+<meta name="twitter:description" content="A private network for country club members to host and play at clubs across the country.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231a2744'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='13' font-weight='400' fill='%23f8f5f0' letter-spacing='-0.5'%3EM%26G%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --cream: #f8f5f0;
+  --cream-muted: #ede9e3;
+  --navy: #1a2744;
+  --navy-light: #243354;
+  --forest: #2d4a2d;
+  --forest-light: #3a5e3a;
+  --gold: #c9a96e;
+  --gold-muted: rgba(201, 169, 110, 0.6);
+  --text-cream: #f8f5f0;
+  --text-muted: rgba(248, 245, 240, 0.6);
+  --text-dark: #1a2744;
+  --text-dark-muted: rgba(26, 39, 68, 0.55);
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--text-dark);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ---- SKIP LINK ---- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--navy);
+  color: var(--gold);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  z-index: 200;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---- REVEAL ANIMATIONS ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+.reveal-delay-3 { transition-delay: 0.36s; }
+.reveal-delay-4 { transition-delay: 0.48s; }
+
+/* ---- NAV ---- */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(26, 39, 68, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(248, 245, 240, 0.06);
+}
+.wordmark {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text-cream);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+a.wordmark:hover {
+  opacity: 0.75;
+}
+.nav-cta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-cream);
+  background: transparent;
+  border: 1px solid rgba(248, 245, 240, 0.35);
+  padding: 0.65rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  text-decoration: none;
+  line-height: 1;
+}
+.nav-cta:hover {
+  background: rgba(248, 245, 240, 0.08);
+  border-color: rgba(248, 245, 240, 0.6);
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 7rem 2rem 4rem;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(36, 51, 84, 0.9) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 100%, rgba(45, 74, 45, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201, 169, 110, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Hero decorative compass rose */
+.hero-ornament {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 680px);
+  height: min(90vw, 680px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+}
+.hero-ornament svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6.5vw, 5rem);
+  font-weight: 300;
+  color: var(--text-cream);
+  letter-spacing: -0.015em;
+  line-height: 1.06;
+  margin-bottom: 1.5rem;
+}
+.hero p {
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto 2.8rem;
+  line-height: 1.75;
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+
+/* ---- EMAIL CAPTURE ---- */
+.email-capture {
+  display: flex;
+  gap: 0;
+  max-width: 440px;
+  margin: 0 auto;
+  position: relative;
+}
+.email-capture input {
+  flex: 1;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 300;
+  padding: 0.95rem 1.2rem;
+  background: rgba(248, 245, 240, 0.06);
+  border: 1px solid rgba(248, 245, 240, 0.15);
+  border-right: none;
+  color: var(--text-cream);
+  outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.01em;
+}
+.email-capture input::placeholder {
+  color: rgba(248, 245, 240, 0.3);
+  font-weight: 300;
+}
+.email-capture input:focus {
+  background: rgba(248, 245, 240, 0.09);
+  border-color: rgba(248, 245, 240, 0.3);
+}
+.email-capture button {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1px solid var(--cream);
+  padding: 0.95rem 1.8rem;
+  cursor: pointer;
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+.email-capture button:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--navy);
+}
+.confirmation-msg {
+  display: none;
+  text-align: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
+.confirmation-msg.show {
+  display: block;
+  animation: confirmFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes confirmFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.confirmation-msg p {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+.confirmation-msg span {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+/* ---- HOW IT WORKS ---- */
+.how-it-works {
+  padding: clamp(5rem, 10vw, 8rem) 2rem;
+  background: var(--cream);
+  position: relative;
+}
+/* Faint dot grid texture */
+.how-it-works::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(26, 39, 68, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+.section-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  position: relative;
+}
+.section-label {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 300;
+  color: var(--text-dark);
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.step {
+  padding: 0 2.2rem;
+  position: relative;
+}
+/* Vertical rules between steps */
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(26, 39, 68, 0.08);
+}
+.step:first-child {
+  padding-left: 0;
+}
+.step:last-child {
+  padding-right: 0;
+}
+.step-num {
+  font-family: var(--serif);
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
+}
+.step-title {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dark);
+  margin-bottom: 0.9rem;
+}
+.step-body {
+  font-size: 0.92rem;
+  color: var(--text-dark-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+
+/* ---- SECTION DIVIDER ---- */
+.section-divider {
+  background: var(--cream);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 3.5rem) 2rem;
+  position: relative;
+}
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  opacity: 0.35;
+}
+.divider-ornament .divider-line {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+}
+.divider-ornament .divider-diamond {
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+
+/* ---- TRUST ---- */
+.trust {
+  padding: clamp(5rem, 10vw, 8rem) 2rem;
+  background: var(--navy);
+  position: relative;
+}
+.trust::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.trust .section-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+.trust .section-label {
+  color: var(--text-cream);
+}
+.trust-body p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+.trust-body p:last-of-type {
+  margin-bottom: 0;
+}
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 2.2rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 2px;
+  transition: border-color 0.35s ease;
+}
+.verified-badge:hover {
+  border-color: rgba(201, 169, 110, 0.45);
+}
+.verified-badge svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.verified-badge span {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ---- SECOND CTA ---- */
+.second-cta {
+  padding: clamp(5rem, 10vw, 7rem) 2rem;
+  background: var(--forest);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.second-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(201, 169, 110, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* Inset frame border */
+.second-cta::after {
+  content: '';
+  position: absolute;
+  inset: clamp(16px, 3vw, 32px);
+  border: 1px solid rgba(201, 169, 110, 0.1);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Corner marks */
+.cta-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  pointer-events: none;
+}
+.cta-corner svg {
+  width: 100%;
+  height: 100%;
+}
+.cta-corner--tl { top: clamp(12px, 2.6vw, 28px); left: clamp(12px, 2.6vw, 28px); }
+.cta-corner--tr { top: clamp(12px, 2.6vw, 28px); right: clamp(12px, 2.6vw, 28px); }
+.cta-corner--bl { bottom: clamp(12px, 2.6vw, 28px); left: clamp(12px, 2.6vw, 28px); }
+.cta-corner--br { bottom: clamp(12px, 2.6vw, 28px); right: clamp(12px, 2.6vw, 28px); }
+.second-cta .section-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+.second-cta h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 300;
+  color: var(--text-cream);
+  margin-bottom: 1rem;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+}
+.second-cta .sub {
+  font-size: 0.95rem;
+  color: rgba(248, 245, 240, 0.55);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+}
+.second-cta .email-capture {
+  border-top: 1px solid rgba(248, 245, 240, 0.1);
+  padding-top: 2rem;
+}
+.second-cta .email-capture input {
+  background: rgba(248, 245, 240, 0.07);
+  border-color: rgba(248, 245, 240, 0.15);
+}
+.second-cta .email-capture input:focus {
+  background: rgba(248, 245, 240, 0.1);
+  border-color: rgba(248, 245, 240, 0.3);
+}
+.second-cta .small-note {
+  font-size: 0.75rem;
+  color: rgba(248, 245, 240, 0.35);
+  margin-top: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  background: var(--navy);
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(248, 245, 240, 0.05);
+}
+.footer-wordmark {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text-cream);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.footer-copy {
+  font-size: 0.72rem;
+  color: rgba(248, 245, 240, 0.3);
+  letter-spacing: 0.04em;
+  font-weight: 300;
+}
+.footer-ig {
+  color: rgba(248, 245, 240, 0.3);
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.footer-ig:hover {
+  color: rgba(248, 245, 240, 0.6);
+}
+.footer-ig svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  nav {
+    padding: 1.2rem 1.5rem;
+  }
+  .wordmark {
+    font-size: 1.02rem;
+  }
+  .nav-cta {
+    font-size: 0.65rem;
+    padding: 0.55rem 1.1rem;
+  }
+  .hero {
+    padding: 6rem 1.5rem 3.5rem;
+  }
+  .hero-ornament {
+    width: 120vw;
+    height: 120vw;
+    opacity: 0.03;
+  }
+  .hero p {
+    margin-bottom: 2.2rem;
+  }
+  .email-capture {
+    flex-direction: column;
+    gap: 0;
+    max-width: 100%;
+  }
+  .email-capture input {
+    border-right: 1px solid rgba(248, 245, 240, 0.15);
+    border-bottom: 1px solid rgba(248, 245, 240, 0.15);
+  }
+  .email-capture input:focus {
+    border-right: 1px solid rgba(248, 245, 240, 0.3);
+    border-bottom: 1px solid rgba(248, 245, 240, 0.3);
+  }
+  .email-capture button {
+    padding: 1rem 1.8rem;
+    border-top: none;
+  }
+  .second-cta .email-capture {
+    padding-top: 1.5rem;
+  }
+  .how-it-works {
+    padding: 4rem 1.5rem;
+  }
+  .how-it-works::before {
+    background-size: 24px 24px;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .step {
+    padding: 0;
+    padding-bottom: 2.2rem;
+    margin-bottom: 2.2rem;
+  }
+  .step:not(:last-child)::after {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  }
+  .step:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  .trust {
+    padding: 4rem 1.5rem;
+  }
+  .second-cta {
+    padding: 4rem 1.5rem;
+  }
+  .cta-corner {
+    width: 14px;
+    height: 14px;
+  }
+  footer {
+    padding: 2rem 1.5rem;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-align: center;
+  }
+  .footer-wordmark {
+    font-size: 0.95rem;
+    color: rgba(248, 245, 240, 0.4);
+    order: -1;
+  }
+  .footer-ig {
+    display: none;
+  }
+}
+
+/* ---- SELECTION ---- */
+::selection {
+  background: rgba(201, 169, 110, 0.25);
+  color: var(--navy);
+}
+
+/* ---- FOCUS VISIBLE ---- */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+input:focus-visible,
+button:focus-visible {
+  outline-offset: -2px;
+}
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="wordmark">Members &amp; Guests</a>
+  <a href="apply.html" class="nav-cta">Request Access</a>
+</nav>
+
+<!-- MAIN -->
+<main id="main-content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ornament" aria-hidden="true">
+    <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Compass rose / crossed directional motif -->
+      <g stroke="#f8f5f0" stroke-width="0.75" fill="none">
+        <!-- Outer circle -->
+        <circle cx="300" cy="300" r="280" />
+        <circle cx="300" cy="300" r="260" stroke-dasharray="2 6" />
+        <!-- Inner circle -->
+        <circle cx="300" cy="300" r="140" />
+        <circle cx="300" cy="300" r="120" stroke-dasharray="2 8" />
+        <!-- Cardinal lines -->
+        <line x1="300" y1="20" x2="300" y2="160" />
+        <line x1="300" y1="440" x2="300" y2="580" />
+        <line x1="20" y1="300" x2="160" y2="300" />
+        <line x1="440" y1="300" x2="580" y2="300" />
+        <!-- Diagonal lines -->
+        <line x1="102" y1="102" x2="201" y2="201" />
+        <line x1="399" y1="399" x2="498" y2="498" />
+        <line x1="498" y1="102" x2="399" y2="201" />
+        <line x1="102" y1="498" x2="201" y2="399" />
+        <!-- North pointer -->
+        <polygon points="300,20 310,160 290,160" fill="#f8f5f0" opacity="0.3" stroke="none" />
+        <!-- Tick marks on outer circle -->
+        <line x1="300" y1="20" x2="300" y2="35" stroke-width="1" />
+        <line x1="300" y1="565" x2="300" y2="580" stroke-width="1" />
+        <line x1="20" y1="300" x2="35" y2="300" stroke-width="1" />
+        <line x1="565" y1="300" x2="580" y2="300" stroke-width="1" />
+        <!-- Small degree marks -->
+        <line x1="370" y1="25" x2="367" y2="40" />
+        <line x1="435" y1="55" x2="428" y2="68" />
+        <line x1="545" y1="230" x2="532" y2="233" />
+        <line x1="575" y1="370" x2="560" y2="367" />
+        <line x1="230" y1="25" x2="233" y2="40" />
+        <line x1="165" y1="55" x2="172" y2="68" />
+        <line x1="55" y1="230" x2="68" y2="233" />
+        <line x1="25" y1="370" x2="40" y2="367" />
+        <!-- Inner decorative diamond -->
+        <rect x="280" y="280" width="40" height="40" transform="rotate(45 300 300)" />
+        <!-- Small crosshair at center -->
+        <line x1="293" y1="300" x2="307" y2="300" stroke-width="1" />
+        <line x1="300" y1="293" x2="300" y2="307" stroke-width="1" />
+      </g>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <h1 class="reveal">Your membership,<br>everywhere.</h1>
+    <p class="reveal reveal-delay-1">A private network for country club members to host and play at clubs across the country.</p>
+    <div class="email-capture reveal reveal-delay-2" id="hero-form">
+      <input type="email" placeholder="Your email address" aria-label="Email address" required>
+      <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
+      <button type="button">Join the Waitlist</button>
+    </div>
+    <div class="confirmation-msg" id="hero-confirm">
+      <p>You're on the list.</p>
+      <span>We'll be in touch when it's your turn.</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <div class="section-inner">
+    <h2 class="section-label reveal">Simple by design.</h2>
+    <div class="steps">
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">01</div>
+        <div class="step-title">Verify</div>
+        <p class="step-body">Upload your club membership card. We confirm you belong before anyone else sees your profile.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">02</div>
+        <div class="step-title">Connect</div>
+        <p class="step-body">Browse members at clubs across the country. Filter by location, club type, or availability to host.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">03</div>
+        <div class="step-title">Play</div>
+        <p class="step-body">Reach out, get introduced, and arrange a round. Your host handles the rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="section-divider" aria-hidden="true">
+  <div class="divider-ornament">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="section-inner">
+    <h2 class="section-label reveal">Everyone here<br>belongs somewhere.</h2>
+    <div class="trust-body">
+      <p class="reveal reveal-delay-1">Every member is verified before they can see or be seen. Upload your membership card, and our team reviews it by hand. No exceptions, no shortcuts — this is the foundation the network is built on.</p>
+      <p class="reveal reveal-delay-2">Over time, members earn additional trust through peer vouching. When someone you've hosted confirms the experience, both reputations grow. The network gets stronger with every round played.</p>
+      <p class="reveal reveal-delay-3">This isn't open enrollment. It's a private network that stays private because everyone in it has been accounted for.</p>
+      <div class="verified-badge reveal reveal-delay-4">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="7" stroke="#c9a96e" stroke-width="0.9"/>
+          <path d="M4.8 8.3L6.8 10.3L11.2 5.9" stroke="#c9a96e" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Verified Member</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECOND CTA -->
+<section class="second-cta">
+  <!-- Corner accent marks -->
+  <div class="cta-corner cta-corner--tl" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 20V0H20" stroke="#c9a96e" stroke-width="0.75" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="cta-corner cta-corner--tr" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 20V0H0" stroke="#c9a96e" stroke-width="0.75" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="cta-corner cta-corner--bl" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0V20H20" stroke="#c9a96e" stroke-width="0.75" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="cta-corner cta-corner--br" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0V20H0" stroke="#c9a96e" stroke-width="0.75" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="section-inner">
+    <h2 class="reveal">Be among the first.</h2>
+    <p class="sub reveal reveal-delay-1">Access is invitation-only. Join the waitlist to be considered as we open the network.</p>
+    <div class="email-capture reveal reveal-delay-2" id="cta-form">
+      <input type="email" placeholder="Your email address" aria-label="Email address" required>
+      <input type="text" name="company" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
+      <button type="button">Join the Waitlist</button>
+    </div>
+    <div class="confirmation-msg" id="cta-confirm">
+      <p>You're on the list.</p>
+      <span>We'll be in touch when it's your turn.</span>
+    </div>
+    <p class="small-note reveal reveal-delay-3">Invitation-based. Membership verification required.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-wordmark">Members &amp; Guests</div>
+  <div class="footer-copy">&copy; 2026 Members &amp; Guests</div>
+  <a href="#" class="footer-ig" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5"/>
+      <circle cx="12" cy="12" r="5"/>
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+    </svg>
+  </a>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ---- NAV SCROLL STATE ----
+  var nav = document.querySelector('nav');
+  var ticking = false;
+  function updateNav() {
+    if (window.scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(updateNav);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // ---- INTERSECTION OBSERVER FOR REVEALS ----
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  });
+  reveals.forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // ---- EMAIL FORM HANDLING ----
+  var WH = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ4ODU1OTk3MzI0Njk2MzczMy91SWNTSUowdjhuRWVVV2ZWY0J3Ni03aWJzQXBaYjdFdHNpNEFocVhPMTAyZkpYajVjeVlsX19zRHVjMVlQTVloSVl2Tg==');
+  var pageLoadTime = Date.now();
+
+  function setupForm(formId, confirmId) {
+    var form = document.getElementById(formId);
+    var confirm = document.getElementById(confirmId);
+    if (!form || !confirm) return;
+    var btn = form.querySelector('button');
+    var input = form.querySelector('input[type="email"]');
+    var honeypot = form.querySelector('input[type="text"]');
+
+    function submit() {
+      var email = input.value.trim();
+      if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        // Bot checks: honeypot filled or submitted too fast
+        var isBot = (honeypot && honeypot.value) || (Date.now() - pageLoadTime < 3000);
+
+        // Rate limit: one submission per 30s
+        var lastSend = parseInt(localStorage.getItem('mg_last_submit') || '0', 10);
+        var tooFast = Date.now() - lastSend < 30000;
+
+        if (!isBot && !tooFast) {
+          localStorage.setItem('mg_last_submit', String(Date.now()));
+          var source = formId === 'hero-form' ? 'Hero' : 'Second CTA';
+          fetch(WH, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              embeds: [{
+                title: '\ud83d\udce9 New Waitlist Signup',
+                color: 0xc9a96e,
+                fields: [
+                  { name: 'Email', value: email, inline: true },
+                  { name: 'Source', value: source + ' Section', inline: true }
+                ],
+                footer: { text: 'Members & Guests \u2014 Landing Page' },
+                timestamp: new Date().toISOString()
+              }]
+            })
+          }).catch(function() {});
+        }
+
+        form.style.display = 'none';
+        confirm.classList.add('show');
+      } else {
+        input.style.borderColor = 'rgba(201, 169, 110, 0.6)';
+        input.focus();
+        setTimeout(function() {
+          input.style.borderColor = '';
+        }, 2000);
+      }
+    }
+
+    btn.addEventListener('click', submit);
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submit();
+      }
+    });
+  }
+
+  setupForm('hero-form', 'hero-confirm');
+  setupForm('cta-form', 'cta-confirm');
+})();
+</script>
+
+</body>
+</html>
