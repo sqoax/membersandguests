@@ -218,6 +218,26 @@ a.wordmark:hover {
   font-weight: 300;
   letter-spacing: 0.005em;
 }
+.hero-cta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-cream);
+  background: transparent;
+  border: 1px solid rgba(248, 245, 240, 0.35);
+  padding: 0.9rem 2.4rem;
+  cursor: pointer;
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  text-decoration: none;
+  line-height: 1;
+  display: inline-block;
+}
+.hero-cta:hover {
+  background: rgba(248, 245, 240, 0.08);
+  border-color: rgba(248, 245, 240, 0.6);
+}
 
 /* ---- EMAIL CAPTURE ---- */
 .email-capture {
@@ -762,15 +782,7 @@ button:focus-visible {
   <div class="hero-content">
     <h1 class="reveal">Your membership,<br>everywhere.</h1>
     <p class="reveal reveal-delay-1">A private network for country club members to host and play at clubs across the country.</p>
-    <div class="email-capture reveal reveal-delay-2" id="hero-form">
-      <input type="email" placeholder="Your email address" aria-label="Email address" required>
-      <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
-      <button type="button">Join the Waitlist</button>
-    </div>
-    <div class="confirmation-msg" id="hero-confirm">
-      <p>You're on the list.</p>
-      <span>We'll be in touch when it's your turn.</span>
-    </div>
+    <a href="apply.html" class="hero-cta reveal reveal-delay-2">Request Access</a>
   </div>
 </section>
 
@@ -943,7 +955,7 @@ button:focus-visible {
 
         if (!isBot && !tooFast) {
           localStorage.setItem('mg_last_submit', String(Date.now()));
-          var source = formId === 'hero-form' ? 'Hero' : 'Second CTA';
+          var source = 'Bottom CTA';
           fetch(WH, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -982,7 +994,6 @@ button:focus-visible {
     });
   }
 
-  setupForm('hero-form', 'hero-confirm');
   setupForm('cta-form', 'cta-confirm');
 })();
 </script>
