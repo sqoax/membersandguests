@@ -125,6 +125,7 @@ a.wordmark:hover {
   opacity: 0.75;
 }
 .nav-cta {
+  display: none;
   font-family: var(--sans);
   font-size: 0.72rem;
   font-weight: 400;
@@ -139,6 +140,10 @@ a.wordmark:hover {
   text-decoration: none;
   line-height: 1;
 }
+nav.scrolled .nav-cta {
+  display: inline-block;
+}
+
 .nav-cta:hover {
   background: rgba(248, 245, 240, 0.08);
   border-color: rgba(248, 245, 240, 0.6);
@@ -237,6 +242,32 @@ a.wordmark:hover {
 .hero-cta:hover {
   background: rgba(248, 245, 240, 0.08);
   border-color: rgba(248, 245, 240, 0.6);
+}
+.hero-scroll-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 1.2rem;
+  transform: translateX(-50%);
+  color: rgba(248, 245, 240, 0.35);
+  opacity: 0.35;
+  animation: heroChevronFloat 2.2s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-scroll-indicator svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+@keyframes heroChevronFloat {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(-50%) translateY(6px);
+    opacity: 0.42;
+  }
 }
 
 /* ---- EMAIL CAPTURE ---- */
@@ -487,6 +518,25 @@ a.wordmark:hover {
   color: var(--gold);
 }
 
+/* ---- INSIDE SECTION ---- */
+.inside-section {
+  padding: clamp(3rem, 6vw, 5rem) 2rem;
+  background: var(--cream);
+}
+.inside-section .section-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.inside-section .section-label {
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+.inside-section .trust-body p {
+  color: var(--text-dark-muted);
+  margin-bottom: 0;
+}
+
 /* ---- SECOND CTA ---- */
 .second-cta {
   padding: clamp(5rem, 10vw, 7rem) 2rem;
@@ -727,7 +777,7 @@ button:focus-visible {
 <!-- NAV -->
 <nav>
   <a href="index.html" class="wordmark">Members &amp; Guests</a>
-  <a href="apply.html" class="nav-cta">Request Access</a>
+  <a href="apply.html" class="nav-cta">Apply</a>
 </nav>
 
 <!-- MAIN -->
@@ -780,9 +830,14 @@ button:focus-visible {
     </svg>
   </div>
   <div class="hero-content">
-    <h1 class="reveal">Your membership,<br>everywhere.</h1>
-    <p class="reveal reveal-delay-1">A private network for country club members to host and play at clubs across the country.</p>
-    <a href="apply.html" class="hero-cta reveal reveal-delay-2">Request Access</a>
+    <h1 class="reveal">Where members host members.</h1>
+    <p class="reveal reveal-delay-1">A private network connecting country club members across the country. Apply to join.</p>
+    <a href="apply.html" class="hero-cta reveal reveal-delay-2">Apply</a>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
 </section>
 
@@ -793,13 +848,13 @@ button:focus-visible {
     <div class="steps">
       <div class="step reveal reveal-delay-1">
         <div class="step-num">01</div>
-        <div class="step-title">Verify</div>
-        <p class="step-body">Upload your club membership card. We confirm you belong before anyone else sees your profile.</p>
+        <div class="step-title">Apply</div>
+        <p class="step-body">Our team reviews every submission by hand. You're confirmed before anyone else can see your profile.</p>
       </div>
       <div class="step reveal reveal-delay-2">
         <div class="step-num">02</div>
-        <div class="step-title">Connect</div>
-        <p class="step-body">Browse members at clubs across the country. Filter by location, club type, or availability to host.</p>
+        <div class="step-title">Discover</div>
+        <p class="step-body">Browse members at clubs across the country and find the right introduction for where you're headed.</p>
       </div>
       <div class="step reveal reveal-delay-3">
         <div class="step-num">03</div>
@@ -824,8 +879,7 @@ button:focus-visible {
   <div class="section-inner">
     <h2 class="section-label reveal">Everyone here<br>belongs somewhere.</h2>
     <div class="trust-body">
-      <p class="reveal reveal-delay-1">Every member is verified before they can see or be seen. Upload your membership card, and our team reviews it by hand. No exceptions, no shortcuts — this is the foundation the network is built on.</p>
-      <p class="reveal reveal-delay-2">Over time, members earn additional trust through peer vouching. When someone you've hosted confirms the experience, both reputations grow. The network gets stronger with every round played.</p>
+      <p class="reveal reveal-delay-1">Every member is verified before they can see or be seen. Our team reviews each application personally. No exceptions, no shortcuts — this is the foundation the network is built on.</p>
       <p class="reveal reveal-delay-3">This isn't open enrollment. It's a private network that stays private because everyone in it has been accounted for.</p>
       <div class="verified-badge reveal reveal-delay-4">
         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -837,6 +891,33 @@ button:focus-visible {
     </div>
   </div>
 </section>
+
+<div class="section-divider" aria-hidden="true">
+  <div class="divider-ornament">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+</div>
+
+<!-- INSIDE -->
+<section class="inside-section">
+  <div class="section-inner">
+    <h2 class="section-label reveal">Built from the inside.</h2>
+    <div class="trust-body">
+      <p class="reveal reveal-delay-1">This started as a simple idea: country club members already travel, already want to play great courses, and already know how to extend hospitality to the right people. We built the infrastructure to make it happen beyond your home club. If that sounds like your world, you belong here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="section-divider" aria-hidden="true">
+  <div class="divider-ornament">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+</div>
 
 <!-- SECOND CTA -->
 <section class="second-cta">
@@ -862,18 +943,10 @@ button:focus-visible {
     </svg>
   </div>
   <div class="section-inner">
-    <h2 class="reveal">Be among the first.</h2>
-    <p class="sub reveal reveal-delay-1">Access is invitation-only. Join the waitlist to be considered as we open the network.</p>
-    <div class="email-capture reveal reveal-delay-2" id="cta-form">
-      <input type="email" placeholder="Your email address" aria-label="Email address" required>
-      <input type="text" name="company" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
-      <button type="button">Join the Waitlist</button>
-    </div>
-    <div class="confirmation-msg" id="cta-confirm">
-      <p>You're on the list.</p>
-      <span>We'll be in touch when it's your turn.</span>
-    </div>
-    <p class="small-note reveal reveal-delay-3">Invitation-based. Membership verification required.</p>
+    <h2 class="reveal">The network is forming.</h2>
+    <p class="sub reveal reveal-delay-1">We're opening the network to a small number of members. Apply now to be considered.</p>
+    <a href="apply.html" class="hero-cta reveal reveal-delay-2">Apply</a>
+    <p class="small-note reveal reveal-delay-3">Membership is reviewed, not automatic.</p>
   </div>
 </section>
 
@@ -931,70 +1004,6 @@ button:focus-visible {
     observer.observe(el);
   });
 
-  // ---- EMAIL FORM HANDLING ----
-  var WH = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ4ODU1OTk3MzI0Njk2MzczMy91SWNTSUowdjhuRWVVV2ZWY0J3Ni03aWJzQXBaYjdFdHNpNEFocVhPMTAyZkpYajVjeVlsX19zRHVjMVlQTVloSVl2Tg==');
-  var pageLoadTime = Date.now();
-
-  function setupForm(formId, confirmId) {
-    var form = document.getElementById(formId);
-    var confirm = document.getElementById(confirmId);
-    if (!form || !confirm) return;
-    var btn = form.querySelector('button');
-    var input = form.querySelector('input[type="email"]');
-    var honeypot = form.querySelector('input[type="text"]');
-
-    function submit() {
-      var email = input.value.trim();
-      if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        // Bot checks: honeypot filled or submitted too fast
-        var isBot = (honeypot && honeypot.value) || (Date.now() - pageLoadTime < 3000);
-
-        // Rate limit: one submission per 30s
-        var lastSend = parseInt(localStorage.getItem('mg_last_submit') || '0', 10);
-        var tooFast = Date.now() - lastSend < 30000;
-
-        if (!isBot && !tooFast) {
-          localStorage.setItem('mg_last_submit', String(Date.now()));
-          var source = 'Bottom CTA';
-          fetch(WH, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              embeds: [{
-                title: '\ud83d\udce9 New Waitlist Signup',
-                color: 0xc9a96e,
-                fields: [
-                  { name: 'Email', value: email, inline: true },
-                  { name: 'Source', value: source + ' Section', inline: true }
-                ],
-                footer: { text: 'Members & Guests \u2014 Landing Page' },
-                timestamp: new Date().toISOString()
-              }]
-            })
-          }).catch(function() {});
-        }
-
-        form.style.display = 'none';
-        confirm.classList.add('show');
-      } else {
-        input.style.borderColor = 'rgba(201, 169, 110, 0.6)';
-        input.focus();
-        setTimeout(function() {
-          input.style.borderColor = '';
-        }, 2000);
-      }
-    }
-
-    btn.addEventListener('click', submit);
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        submit();
-      }
-    });
-  }
-
-  setupForm('cta-form', 'cta-confirm');
 })();
 </script>
 
