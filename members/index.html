@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -681,32 +683,12 @@ footer {
 
 <!-- ============================================================ -->
 <script>
-// Demo credentials for the mock
-const DEMO_EMAIL = 'member@example.com';
-const DEMO_PASSWORD = 'members2026';
+const SUPABASE_URL = 'https://upohsbvsycwjsjbtwsll.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_OaX6cAttsvPQHx_Ru82v3Q_r0qXPX2N';
+const INITIAL_HASH = window.location.hash;
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const MEMBERS = [
-  { name: 'James R. Whitfield III',   club: 'Winged Foot Golf Club',        city: 'Mamaroneck, NY',      type: 'Full',     since: '2018', handicap: '6.2',  hosting: 'host' },
-  { name: 'Caroline Ashworth',        club: 'Shinnecock Hills Golf Club',   city: 'Southampton, NY',     type: 'Full',     since: '2014', handicap: '11.4', hosting: 'host' },
-  { name: 'Henry Delacroix',          club: 'Cypress Point Club',           city: 'Pebble Beach, CA',    type: 'Senior',   since: '2005', handicap: '9.8',  hosting: 'occasional' },
-  { name: 'Margaret Vanderlin',       club: 'Seminole Golf Club',           city: 'Juno Beach, FL',      type: 'Full',     since: '2020', handicap: '14.1', hosting: 'host' },
-  { name: 'Thomas Caldwell',          club: 'Oakmont Country Club',         city: 'Oakmont, PA',         type: 'Full',     since: '2011', handicap: '4.7',  hosting: 'visit' },
-  { name: 'Elizabeth Prescott',       club: 'The Country Club',             city: 'Brookline, MA',       type: 'Legacy',   since: '1998', handicap: '8.3',  hosting: 'occasional' },
-  { name: 'Richard Holloway',         club: 'Pine Valley Golf Club',        city: 'Pine Valley, NJ',     type: 'Full',     since: '2016', handicap: '7.1',  hosting: 'host' },
-  { name: 'Victoria Sinclair-Hayes',  club: 'Merion Golf Club',             city: 'Ardmore, PA',         type: 'Full',     since: '2021', handicap: '12.6', hosting: 'host' },
-  { name: 'Andrew Kent',              club: 'National Golf Links of America', city: 'Southampton, NY',   type: 'Full',     since: '2013', handicap: '5.4',  hosting: 'occasional' },
-  { name: 'Beatrice Montagu',         club: 'Chicago Golf Club',            city: 'Wheaton, IL',         type: 'Full',     since: '2019', handicap: '16.8', hosting: 'host' },
-  { name: 'Charles W. Abernathy',     club: 'Los Angeles Country Club',     city: 'Los Angeles, CA',     type: 'Senior',   since: '2002', handicap: '10.2', hosting: 'visit' },
-  { name: 'Diana Fairweather',        club: 'The Olympic Club',             city: 'San Francisco, CA',   type: 'Full',     since: '2022', handicap: '13.5', hosting: 'occasional' },
-  { name: 'Edward Sterling',          club: 'Augusta National Golf Club',   city: 'Augusta, GA',         type: 'Full',     since: '2009', handicap: '3.9',  hosting: 'host' },
-  { name: 'Frederick Ashby',          club: 'Baltusrol Golf Club',          city: 'Springfield, NJ',     type: 'Full',     since: '2017', handicap: '8.9',  hosting: 'occasional' },
-  { name: 'Harriet Lindenwood',       club: 'Garden City Golf Club',        city: 'Garden City, NY',     type: 'Full',     since: '2015', handicap: '15.2', hosting: 'host' },
-  { name: 'Nathaniel Crane',          club: 'Pebble Beach Golf Links',      city: 'Pebble Beach, CA',    type: 'Full',     since: '2023', handicap: '7.6',  hosting: 'visit' },
-  { name: 'Isabel Montrose',          club: 'Maidstone Club',               city: 'East Hampton, NY',    type: 'Legacy',   since: '2001', handicap: '18.4', hosting: 'host' },
-  { name: 'Owen Pembroke',            club: 'Friar\u2019s Head',            city: 'Baiting Hollow, NY',  type: 'Full',     since: '2018', handicap: '6.8',  hosting: 'host' },
-  { name: 'Sylvia Harrington',        club: 'Bel-Air Country Club',         city: 'Los Angeles, CA',     type: 'Full',     since: '2020', handicap: '11.9', hosting: 'occasional' },
-  { name: 'William Ashford-Grey',     club: 'Somerset Hills Country Club',  city: 'Bernardsville, NJ',   type: 'Full',     since: '2012', handicap: '9.1',  hosting: 'visit' },
-];
+let MEMBERS = [];
 
 const BADGE_LABEL = {
   host:       'Happy to host',
@@ -722,27 +704,24 @@ const loginError = document.getElementById('login-error');
 const loginScreen = document.getElementById('login');
 const directoryScreen = document.getElementById('directory');
 const submitBtn = document.getElementById('login-submit');
+const loginTitle = document.querySelector('.login-title');
+const loginSub = document.querySelector('.login-sub');
+const emailField = emailInput.closest('.field');
+const passwordField = passInput.closest('.field');
+const passwordLabel = document.querySelector('label[for="login-password"]');
+const defaultLoginTitle = loginTitle.textContent;
+const defaultLoginSub = loginSub.textContent;
+const defaultLoginError = loginError.innerHTML;
+let confirmPassInput = null;
+let authMode = 'login';
 
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = emailInput.value.trim().toLowerCase();
-  const pass  = passInput.value;
-  const ok = (email === DEMO_EMAIL && pass === DEMO_PASSWORD);
-  if (!ok) {
-    loginError.classList.add('show');
-    emailInput.classList.add('error');
-    passInput.classList.add('error');
-    submitBtn.animate(
-      [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
-      { duration: 320, easing: 'ease-out' }
-    );
-    return;
+  if (authMode === 'invite') {
+    await completeInvitePassword();
+  } else {
+    await signIn();
   }
-  // success — swap states
-  loginScreen.classList.add('hidden');
-  directoryScreen.classList.remove('hidden');
-  renderDirectory();
-  window.scrollTo(0, 0);
 });
 
 [emailInput, passInput].forEach(el => {
@@ -752,17 +731,261 @@ loginForm.addEventListener('submit', (e) => {
   });
 });
 
-// Prefill helper (demo only)
-emailInput.placeholder = DEMO_EMAIL;
-
 // ----- sign out -----
-document.getElementById('signout-btn').addEventListener('click', () => {
+document.getElementById('signout-btn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  MEMBERS = [];
   directoryScreen.classList.add('hidden');
-  loginScreen.classList.remove('hidden');
+  showLoginScreen();
   emailInput.value = '';
   passInput.value = '';
   window.scrollTo(0, 0);
 });
+
+async function signIn() {
+  const email = emailInput.value.trim().toLowerCase();
+  const password = passInput.value;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Signing in...';
+  clearLoginError();
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Sign in';
+
+  if (error) {
+    showLoginError();
+    return;
+  }
+
+  await showDirectory();
+}
+
+async function showDirectory() {
+  loginScreen.classList.add('hidden');
+  directoryScreen.classList.remove('hidden');
+  setDirectoryLoading();
+  await fetchMembers();
+  window.scrollTo(0, 0);
+}
+
+function showLoginScreen() {
+  authMode = 'login';
+  loginTitle.textContent = defaultLoginTitle;
+  loginSub.textContent = defaultLoginSub;
+  loginError.innerHTML = defaultLoginError;
+  loginError.classList.remove('show');
+  emailField.style.display = '';
+  passwordLabel.textContent = 'Password';
+  passInput.value = '';
+  passInput.setAttribute('autocomplete', 'current-password');
+  passInput.setAttribute('placeholder', '••••••••••');
+  passInput.classList.remove('error');
+  emailInput.classList.remove('error');
+  submitBtn.textContent = 'Sign in';
+  submitBtn.disabled = false;
+  if (confirmPassInput) {
+    confirmPassInput.closest('.field').remove();
+    confirmPassInput = null;
+  }
+  loginScreen.classList.remove('hidden');
+  directoryScreen.classList.add('hidden');
+}
+
+function showInvitePasswordScreen() {
+  authMode = 'invite';
+  loginScreen.classList.remove('hidden');
+  directoryScreen.classList.add('hidden');
+  loginTitle.textContent = 'Set your password';
+  loginSub.textContent = 'Create a password to finish setting up your member access.';
+  loginError.textContent = '';
+  loginError.classList.remove('show');
+  emailField.style.display = 'none';
+  passwordLabel.textContent = 'Password';
+  passInput.value = '';
+  passInput.setAttribute('autocomplete', 'new-password');
+  passInput.setAttribute('placeholder', '••••••••••');
+  submitBtn.textContent = 'Set password';
+  submitBtn.disabled = false;
+
+  if (!confirmPassInput) {
+    const confirmField = document.createElement('div');
+    confirmField.className = 'field';
+    const confirmLabel = document.createElement('label');
+    confirmLabel.className = 'field-label';
+    confirmLabel.setAttribute('for', 'confirm-password');
+    confirmLabel.textContent = 'Confirm password';
+    confirmPassInput = document.createElement('input');
+    confirmPassInput.className = 'field-input-dark';
+    confirmPassInput.id = 'confirm-password';
+    confirmPassInput.type = 'password';
+    confirmPassInput.name = 'confirm_password';
+    confirmPassInput.autocomplete = 'new-password';
+    confirmPassInput.placeholder = '••••••••••';
+    confirmPassInput.required = true;
+    confirmField.appendChild(confirmLabel);
+    confirmField.appendChild(confirmPassInput);
+    passwordField.insertAdjacentElement('afterend', confirmField);
+    confirmPassInput.addEventListener('input', () => {
+      loginError.classList.remove('show');
+      confirmPassInput.classList.remove('error');
+    });
+  }
+
+  setTimeout(() => passInput.focus(), 0);
+}
+
+async function completeInvitePassword() {
+  const password = passInput.value;
+  const confirmPassword = confirmPassInput ? confirmPassInput.value : '';
+
+  clearLoginError();
+
+  if (!password || password !== confirmPassword) {
+    loginError.textContent = password ? 'Passwords do not match.' : 'Enter a password to continue.';
+    loginError.classList.add('show');
+    passInput.classList.add('error');
+    if (confirmPassInput) confirmPassInput.classList.add('error');
+    shakeSubmit();
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Saving...';
+
+  await establishInviteSession();
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Set password';
+    loginError.textContent = error.message || 'Could not set your password. Please try again.';
+    loginError.classList.add('show');
+    return;
+  }
+
+  history.replaceState(null, document.title, window.location.pathname + window.location.search);
+  await showDirectory();
+}
+
+function showLoginError() {
+  loginError.innerHTML = defaultLoginError;
+  loginError.classList.add('show');
+  emailInput.classList.add('error');
+  passInput.classList.add('error');
+  shakeSubmit();
+}
+
+function clearLoginError() {
+  loginError.classList.remove('show');
+  emailInput.classList.remove('error');
+  passInput.classList.remove('error');
+  if (confirmPassInput) confirmPassInput.classList.remove('error');
+}
+
+function shakeSubmit() {
+  submitBtn.animate(
+    [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+    { duration: 320, easing: 'ease-out' }
+  );
+}
+
+function isInviteCallback() {
+  const hash = new URLSearchParams(INITIAL_HASH.replace(/^#/, ''));
+  return hash.has('access_token') || hash.get('type') === 'invite';
+}
+
+async function establishInviteSession() {
+  const hash = new URLSearchParams(INITIAL_HASH.replace(/^#/, ''));
+  const accessToken = hash.get('access_token');
+  const refreshToken = hash.get('refresh_token');
+  if (accessToken && refreshToken) {
+    await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken
+    });
+  } else {
+    await supabase.auth.getSession();
+  }
+}
+
+async function fetchMembers() {
+  const { data, error } = await supabase
+    .from('applications')
+    .select('first_name,last_name,club_name,club_location,membership_type,member_since,handicap,willing_to_host,city,created_at')
+    .eq('status', 'verified')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    MEMBERS = [];
+    const grid = document.getElementById('dir-grid');
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--danger);font-size:0.9rem;">Unable to load the member directory.</div>`;
+    document.getElementById('member-count').textContent = '0';
+    document.getElementById('club-count').textContent = '0';
+    document.getElementById('visible-count').textContent = '0';
+    return;
+  }
+
+  MEMBERS = (data || []).map(mapApplicationToMember);
+  renderDirectory();
+}
+
+function mapApplicationToMember(row) {
+  const name = [row.first_name, row.last_name].filter(Boolean).join(' ').trim();
+  const locations = [row.club_location, row.city].filter(Boolean);
+  return {
+    name: name || 'Member',
+    club: row.club_name || '',
+    city: Array.from(new Set(locations)).join(' - '),
+    type: formatMembershipType(row.membership_type),
+    since: row.member_since || '',
+    handicap: row.handicap || '',
+    hosting: formatHosting(row.willing_to_host)
+  };
+}
+
+function formatMembershipType(value) {
+  const labels = {
+    full: 'Full / Equity',
+    golf: 'Golf Only',
+    'social-golf': 'Social with Golf',
+    legacy: 'Legacy / Family',
+    'non-resident': 'Non-Resident',
+    other: 'Other'
+  };
+  return labels[value] || value || '';
+}
+
+function formatHosting(value) {
+  if (value === 'yes' || value === 'host') return 'host';
+  if (value === 'sometimes' || value === 'occasional') return 'occasional';
+  if (value === 'no' || value === 'visit') return 'visit';
+  return 'visit';
+}
+
+function setDirectoryLoading() {
+  document.getElementById('member-count').textContent = '—';
+  document.getElementById('club-count').textContent = '—';
+  document.getElementById('visible-count').textContent = '—';
+  document.getElementById('dir-grid').innerHTML =
+    `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dark-muted);font-size:0.9rem;">Loading members...</div>`;
+}
+
+async function initAuth() {
+  if (isInviteCallback()) {
+    showInvitePasswordScreen();
+    await establishInviteSession();
+    return;
+  }
+
+  const { data } = await supabase.auth.getSession();
+  if (data && data.session) {
+    await showDirectory();
+  } else {
+    showLoginScreen();
+  }
+}
 
 // ----- directory render -----
 let currentFilter = 'all';
@@ -845,6 +1068,8 @@ document.querySelectorAll('.dir-chip').forEach(chip => {
     applyFilters();
   });
 });
+
+initAuth();
 </script>
 </body>
 </html>
