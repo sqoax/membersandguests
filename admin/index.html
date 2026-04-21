@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,6 +144,7 @@ button {
 
 .primary-btn,
 .secondary-btn,
+.invite-btn,
 .danger-btn,
 .tab-btn {
   min-height: 44px;
@@ -168,6 +170,7 @@ button {
 
 .primary-btn:active,
 .secondary-btn:active,
+.invite-btn:active,
 .danger-btn:active,
 .tab-btn:active {
   transform: translateY(1px);
@@ -368,6 +371,13 @@ button {
 }
 
 .secondary-btn,
+.invite-area {
+  flex: 1 1 130px;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.invite-btn,
 .danger-btn {
   flex: 1 1 130px;
   border: 1px solid var(--navy);
@@ -376,6 +386,25 @@ button {
   font-weight: 500;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+}
+
+.invite-btn {
+  width: 100%;
+  color: var(--gold);
+  background: transparent;
+  border-color: var(--gold);
+}
+
+.invite-btn:hover {
+  color: var(--navy);
+  background: var(--gold);
+}
+
+.invite-error {
+  min-height: 1rem;
+  color: var(--danger);
+  font-size: 0.72rem;
+  line-height: 1.35;
 }
 
 .secondary-btn {
@@ -501,10 +530,16 @@ button:disabled {
 
   var SUPABASE_URL = 'https://upohsbvsycwjsjbtwsll.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_OaX6cAttsvPQHx_Ru82v3Q_r0qXPX2N';
+  var SUPABASE_SERVICE_ROLE_KEY = 'sb_secret_N-I-4deTj3RypWPKbrppkQ_hf_EHDos';
   var ADMIN_PASSWORD = 'mg-admin-2026';
   var UNLOCKED_KEY = 'mg_admin_unlocked';
 
   var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  var supabaseAdmin = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
   var loginScreen = document.getElementById('login-screen');
   var dashboard = document.getElementById('dashboard');
   var loginForm = document.getElementById('login-form');
@@ -684,6 +719,28 @@ button:disabled {
     });
     actions.appendChild(deleteButton);
 
+    if (app.status === 'verified') {
+      var inviteArea = document.createElement('div');
+      inviteArea.className = 'invite-area';
+
+      var inviteButton = document.createElement('button');
+      inviteButton.className = 'invite-btn';
+      inviteButton.type = 'button';
+      inviteButton.textContent = 'Invite';
+
+      var inviteError = document.createElement('div');
+      inviteError.className = 'invite-error';
+      inviteError.setAttribute('aria-live', 'polite');
+
+      inviteButton.addEventListener('click', function() {
+        inviteMember(app, inviteButton, inviteError);
+      });
+
+      inviteArea.appendChild(inviteButton);
+      inviteArea.appendChild(inviteError);
+      actions.appendChild(inviteArea);
+    }
+
     card.appendChild(top);
     card.appendChild(details);
     card.appendChild(actions);
@@ -794,6 +851,33 @@ button:disabled {
         render();
         setStatus('Applicant deleted.');
       });
+  }
+
+  function inviteMember(member, button, errorEl) {
+    if (!member.email) {
+      errorEl.textContent = 'This applicant does not have an email address.';
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Sending\u2026';
+    errorEl.textContent = '';
+
+    supabaseAdmin.auth.admin.inviteUserByEmail(member.email).then(function(result) {
+      if (result.error) {
+        button.disabled = false;
+        button.textContent = 'Invite';
+        errorEl.textContent = result.error.message || 'Could not send invite.';
+        return;
+      }
+
+      button.textContent = 'Invited \u2713';
+      button.disabled = true;
+    }, function() {
+      button.disabled = false;
+      button.textContent = 'Invite';
+      errorEl.textContent = 'Could not send invite.';
+    });
   }
 
   loginForm.addEventListener('submit', function(event) {
