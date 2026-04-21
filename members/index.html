@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Members — Members &amp; Guests</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231a2744'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='13' font-weight='400' fill='%23f8f5f0' letter-spacing='-0.5'%3EM%26G%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #f8f5f0;
+  --cream-muted: #ede9e3;
+  --navy: #1a2744;
+  --navy-light: #243354;
+  --forest: #2d4a2d;
+  --gold: #c9a96e;
+  --text-cream: #f8f5f0;
+  --text-muted: rgba(248, 245, 240, 0.6);
+  --text-dark: #1a2744;
+  --text-dark-muted: rgba(26, 39, 68, 0.55);
+  --text-dark-faint: rgba(26, 39, 68, 0.28);
+  --field-border: rgba(26, 39, 68, 0.12);
+  --field-border-focus: rgba(26, 39, 68, 0.35);
+  --field-bg: rgba(26, 39, 68, 0.02);
+  --danger: #8a2d2d;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: var(--sans); font-weight: 300; color: var(--text-dark);
+  background: var(--cream); line-height: 1.6; min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.hidden { display: none !important; }
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+.reveal { opacity: 0; transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.08s; }
+.reveal-d2 { transition-delay: 0.16s; }
+.reveal-d3 { transition-delay: 0.24s; }
+.reveal-d4 { transition-delay: 0.32s; }
+
+/* =========================================================
+   STATE 1 — LOGIN
+   Navy header-style surface, single column, ornament divider
+   ========================================================= */
+.login-screen {
+  min-height: 100vh;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.login-screen::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--noise); background-size: 200px 200px;
+  pointer-events: none; opacity: 0.5;
+}
+.login-screen::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(36, 51, 84, 0.9) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201, 169, 110, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.login-inner {
+  position: relative; z-index: 1;
+  max-width: 420px; width: 100%;
+  margin: auto;
+  padding: clamp(3.5rem, 7vw, 5rem) 2rem;
+  text-align: center;
+}
+.login-wordmark {
+  font-family: var(--serif);
+  font-size: 1.15rem; font-weight: 400;
+  color: var(--text-cream); letter-spacing: 0.01em;
+  line-height: 1; text-decoration: none;
+  display: inline-block;
+  margin-bottom: clamp(3rem, 6vw, 4rem);
+  transition: opacity 0.3s ease;
+}
+.login-wordmark:hover { opacity: 0.75; }
+
+.login-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 300;
+  color: var(--text-cream);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-bottom: 0.9rem;
+}
+.login-sub {
+  font-size: clamp(0.9rem, 1.4vw, 0.98rem);
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: clamp(2.4rem, 5vw, 3rem);
+}
+.login-rule {
+  display: flex; justify-content: center; align-items: center;
+  margin: 0 auto clamp(2rem, 4vw, 2.6rem);
+  opacity: 0.35;
+}
+.login-rule-line { width: 32px; height: 1px; background: var(--gold); }
+.login-rule-diamond { width: 5px; height: 5px; background: var(--gold);
+  transform: rotate(45deg); margin: 0 12px; }
+
+.login-form { display: flex; flex-direction: column; gap: 1.1rem; text-align: left; }
+
+.field { display: flex; flex-direction: column; }
+.field-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(248, 245, 240, 0.8);
+  margin-bottom: 0.55rem;
+  line-height: 1;
+}
+.field-input-dark {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text-cream);
+  background: rgba(248, 245, 240, 0.04);
+  border: 1px solid rgba(248, 245, 240, 0.15);
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  width: 100%;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.005em;
+}
+.field-input-dark::placeholder { color: rgba(248, 245, 240, 0.3); font-weight: 300; }
+.field-input-dark:hover { border-color: rgba(248, 245, 240, 0.25); }
+.field-input-dark:focus {
+  outline: none;
+  border-color: rgba(201, 169, 110, 0.5);
+  background: rgba(248, 245, 240, 0.06);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.08);
+}
+.field-input-dark.error {
+  border-color: rgba(231, 180, 168, 0.5);
+  background: rgba(138, 45, 45, 0.08);
+}
+
+.login-error {
+  display: none;
+  font-size: 0.76rem;
+  color: rgba(231, 180, 168, 0.85);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin-top: -0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(138, 45, 45, 0.12);
+  border-left: 1px solid rgba(231, 180, 168, 0.4);
+  text-align: left;
+}
+.login-error.show { display: block; }
+
+.login-submit {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-cream);
+  background: transparent;
+  border: 1px solid rgba(248, 245, 240, 0.35);
+  border-radius: 0;
+  padding: 1.05rem 2rem;
+  margin-top: 0.6rem;
+  transition: all 0.35s ease;
+  line-height: 1;
+  width: 100%;
+}
+.login-submit:hover {
+  background: rgba(248, 245, 240, 0.08);
+  border-color: rgba(248, 245, 240, 0.6);
+}
+.login-submit:active { transform: translateY(1px); }
+.login-submit:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.login-submit[disabled] { opacity: 0.5; cursor: default; }
+
+.login-note {
+  font-size: 0.74rem;
+  color: rgba(248, 245, 240, 0.35);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  margin-top: 1.4rem;
+  line-height: 1.55;
+}
+.login-note a { color: rgba(248, 245, 240, 0.55); text-decoration: none;
+  border-bottom: 1px solid rgba(248, 245, 240, 0.2); padding-bottom: 1px;
+  transition: border-color 0.3s ease, color 0.3s ease; }
+.login-note a:hover { color: rgba(248, 245, 240, 0.85); border-color: rgba(248, 245, 240, 0.5); }
+
+/* =========================================================
+   STATE 2 — DIRECTORY
+   ========================================================= */
+.dir-screen { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* Nav bar — navy, hairline bottom */
+.dir-nav {
+  background: var(--navy);
+  position: relative;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.18);
+}
+.dir-nav::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--noise); background-size: 200px 200px;
+  pointer-events: none; opacity: 0.4;
+}
+.dir-nav-inner {
+  position: relative; z-index: 1;
+  max-width: 1180px; margin: 0 auto;
+  padding: 1.15rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem;
+}
+.dir-wordmark {
+  font-family: var(--serif);
+  font-size: 1.15rem; font-weight: 400;
+  color: var(--text-cream); letter-spacing: 0.01em;
+  line-height: 1; text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+.dir-wordmark:hover { opacity: 0.75; }
+.dir-signout {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid rgba(248, 245, 240, 0.2);
+  padding: 0.6rem 1.4rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition: all 0.35s ease;
+}
+.dir-signout:hover {
+  color: var(--text-cream);
+  border-color: rgba(248, 245, 240, 0.5);
+  background: rgba(248, 245, 240, 0.06);
+}
+
+/* Header block below nav */
+.dir-header {
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+.dir-header::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--noise); background-size: 200px 200px;
+  pointer-events: none; opacity: 0.5;
+}
+.dir-header-inner {
+  position: relative; z-index: 1;
+  max-width: 1180px; margin: 0 auto;
+  padding: clamp(3rem, 6vw, 4.5rem) 2rem clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+.dir-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  color: var(--text-cream);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-bottom: 0.9rem;
+}
+.dir-sub {
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+.dir-sub strong {
+  color: var(--gold);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.dir-header-rule {
+  display: flex; justify-content: center; align-items: center;
+  position: relative; z-index: 1;
+  background: var(--navy);
+  padding-bottom: clamp(0.5rem, 1vw, 0.75rem);
+}
+.dir-header-rule-inner { display: flex; align-items: center; opacity: 0.22; }
+.dir-header-rule-line { width: 32px; height: 1px; background: var(--gold); }
+.dir-header-rule-dot { width: 5px; height: 5px; background: var(--gold);
+  border-radius: 50%; margin: 0 10px; }
+
+/* Filter strip */
+.dir-filters {
+  background: var(--cream);
+  border-bottom: 1px solid var(--field-border);
+}
+.dir-filters-inner {
+  max-width: 1180px; margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2rem) 2rem;
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.dir-search {
+  position: relative;
+  flex: 1 1 280px;
+  min-width: 220px;
+  max-width: 380px;
+}
+.dir-search svg {
+  position: absolute; left: 0.95rem; top: 50%;
+  transform: translateY(-50%);
+  width: 14px; height: 14px;
+  color: var(--text-dark-faint);
+  pointer-events: none;
+}
+.dir-search-input {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text-dark);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 0;
+  padding: 0.8rem 1rem 0.8rem 2.4rem;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.dir-search-input::placeholder { color: var(--text-dark-faint); }
+.dir-search-input:hover { border-color: rgba(26, 39, 68, 0.22); }
+.dir-search-input:focus {
+  outline: none;
+  border-color: var(--field-border-focus);
+  background: rgba(26, 39, 68, 0.01);
+  box-shadow: 0 0 0 3px rgba(26, 39, 68, 0.04);
+}
+.dir-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.dir-chip {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  padding: 0.55rem 1rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+.dir-chip:hover { background: rgba(26, 39, 68, 0.04); color: var(--text-dark); }
+.dir-chip.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--text-cream);
+}
+.dir-count {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--text-dark-muted);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+.dir-count strong {
+  font-weight: 500;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Grid */
+.dir-main { flex: 1; background: var(--cream); position: relative; }
+.dir-main::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(26, 39, 68, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+.dir-main-inner {
+  position: relative; z-index: 1;
+  max-width: 1180px; margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 2rem clamp(4rem, 8vw, 6rem);
+}
+.dir-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Card */
+.mcard {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--field-border);
+  padding: 1.6rem 1.6rem 1.35rem;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.mcard:hover {
+  border-color: rgba(26, 39, 68, 0.22);
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 50px rgba(26, 39, 68, 0.05);
+}
+.mcard-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 0.8rem; margin-bottom: 0.6rem;
+}
+.mcard-name {
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.mcard-club {
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  margin-bottom: 0.25rem;
+}
+.mcard-location {
+  font-size: 0.82rem;
+  color: var(--text-dark-muted);
+  font-weight: 300;
+  letter-spacing: 0.005em;
+  margin-bottom: 1.1rem;
+}
+.mcard-rule {
+  height: 1px; background: var(--field-border);
+  margin: 0 0 1rem;
+}
+.mcard-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem 1rem;
+  margin-bottom: 1.15rem;
+}
+.mcard-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.mcard-meta-label {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+  line-height: 1;
+}
+.mcard-meta-value {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 400;
+  letter-spacing: 0.002em;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hosting badge */
+.mcard-badge {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.8rem;
+  line-height: 1;
+  border: 1px solid;
+  border-radius: 0;
+  white-space: nowrap;
+}
+.mcard-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.mcard-badge.host {
+  color: var(--forest);
+  border-color: rgba(45, 74, 45, 0.3);
+  background: rgba(45, 74, 45, 0.06);
+}
+.mcard-badge.host .mcard-badge-dot { background: var(--forest); }
+.mcard-badge.occasional {
+  color: #8a6a1f;
+  border-color: rgba(201, 169, 110, 0.4);
+  background: rgba(201, 169, 110, 0.1);
+}
+.mcard-badge.occasional .mcard-badge-dot { background: var(--gold); }
+.mcard-badge.visit {
+  color: var(--text-dark-muted);
+  border-color: var(--field-border);
+  background: var(--field-bg);
+}
+.mcard-badge.visit .mcard-badge-dot { background: rgba(26, 39, 68, 0.4); }
+
+/* Verified mark — small gold tick, top-right of card */
+.mcard-verified {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  padding-top: 0.35rem;
+}
+.mcard-verified svg { width: 12px; height: 12px; }
+
+/* Footer */
+footer {
+  background: var(--navy);
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(248, 245, 240, 0.05);
+}
+.footer-wordmark {
+  font-family: var(--serif);
+  font-size: 1.15rem; font-weight: 400;
+  color: var(--text-cream); letter-spacing: 0.01em;
+  line-height: 1; white-space: nowrap;
+}
+.footer-copy {
+  font-size: 0.72rem;
+  color: rgba(248, 245, 240, 0.3);
+  letter-spacing: 0.04em;
+  font-weight: 300;
+}
+.footer-ig {
+  color: rgba(248, 245, 240, 0.3);
+  transition: color 0.3s ease;
+  display: flex; align-items: center;
+}
+.footer-ig:hover { color: rgba(248, 245, 240, 0.6); }
+.footer-ig svg { width: 18px; height: 18px; }
+
+/* Responsive */
+@media (max-width: 720px) {
+  .dir-nav-inner { padding: 1rem 1.5rem; }
+  .dir-header-inner { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .dir-filters-inner { padding: 1.5rem; gap: 1rem; }
+  .dir-search { max-width: none; }
+  .dir-count { margin-left: 0; }
+  .dir-main-inner { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .dir-grid { grid-template-columns: 1fr; }
+  footer {
+    padding: 2rem 1.5rem;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-align: center;
+  }
+  .footer-wordmark { font-size: 0.95rem; color: rgba(248, 245, 240, 0.4); order: -1; }
+  .footer-ig { display: none; }
+}
+
+::selection { background: rgba(201, 169, 110, 0.25); color: var(--navy); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.field-input-dark:focus-visible, .dir-search-input:focus-visible { outline: none; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     STATE 1 — LOGIN
+     ============================================================ -->
+<section id="login" class="login-screen">
+  <div class="login-inner">
+    <a href="/" class="login-wordmark reveal visible">Members &amp; Guests</a>
+    <h1 class="login-title reveal visible reveal-d1">Member access</h1>
+    <p class="login-sub reveal visible reveal-d2">Sign in to browse members and arrange introductions. Access is limited to confirmed members in good standing.</p>
+    <div class="login-rule reveal visible reveal-d2" aria-hidden="true">
+      <span class="login-rule-line"></span>
+      <span class="login-rule-diamond"></span>
+      <span class="login-rule-line"></span>
+    </div>
+    <form class="login-form reveal visible reveal-d3" id="login-form" novalidate>
+      <div class="field">
+        <label class="field-label" for="login-email">Email address</label>
+        <input class="field-input-dark" id="login-email" type="email" name="email"
+               autocomplete="username" placeholder="you@club.com" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="login-password">Password</label>
+        <input class="field-input-dark" id="login-password" type="password" name="password"
+               autocomplete="current-password" placeholder="••••••••••" required>
+      </div>
+      <div class="login-error" id="login-error" role="alert">Those credentials don't match a member on file. Try again, or <a href="/apply/" style="color:inherit;text-decoration:underline;">apply for membership</a>.</div>
+      <button class="login-submit" type="submit" id="login-submit">Sign in</button>
+    </form>
+    <p class="login-note reveal visible reveal-d4">
+      Not yet a member? <a href="/apply/">Apply for membership</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATE 2 — DIRECTORY
+     ============================================================ -->
+<div id="directory" class="dir-screen hidden">
+
+  <nav class="dir-nav" aria-label="Primary">
+    <div class="dir-nav-inner">
+      <a href="/" class="dir-wordmark">Members &amp; Guests</a>
+      <button class="dir-signout" id="signout-btn" type="button">Sign out</button>
+    </div>
+  </nav>
+
+  <header class="dir-header">
+    <div class="dir-header-inner">
+      <h1 class="dir-title reveal visible">Member directory</h1>
+      <p class="dir-sub reveal visible reveal-d1">
+        <strong id="member-count">—</strong> verified members across <strong id="club-count">—</strong> clubs.
+      </p>
+    </div>
+    <div class="dir-header-rule" aria-hidden="true">
+      <div class="dir-header-rule-inner">
+        <div class="dir-header-rule-line"></div>
+        <div class="dir-header-rule-dot"></div>
+        <div class="dir-header-rule-line"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dir-filters">
+    <div class="dir-filters-inner">
+      <div class="dir-search">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input class="dir-search-input" id="search-input" type="search"
+               placeholder="Search name, club, city…" aria-label="Search directory">
+      </div>
+      <div class="dir-chips" role="tablist" aria-label="Filter by hosting preference">
+        <button class="dir-chip is-active" data-filter="all" type="button">All</button>
+        <button class="dir-chip" data-filter="host" type="button">Happy to host</button>
+        <button class="dir-chip" data-filter="occasional" type="button">Occasionally</button>
+        <button class="dir-chip" data-filter="visit" type="button">Prefer to visit</button>
+      </div>
+      <div class="dir-count"><strong id="visible-count">—</strong> shown</div>
+    </div>
+  </div>
+
+  <main class="dir-main">
+    <div class="dir-main-inner">
+      <div class="dir-grid" id="dir-grid"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-wordmark">Members &amp; Guests</div>
+    <div class="footer-copy">© 2026 Members &amp; Guests</div>
+    <a href="#" class="footer-ig" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+  </footer>
+</div>
+
+<!-- ============================================================ -->
+<script>
+// Demo credentials for the mock
+const DEMO_EMAIL = 'member@example.com';
+const DEMO_PASSWORD = 'members2026';
+
+const MEMBERS = [
+  { name: 'James R. Whitfield III',   club: 'Winged Foot Golf Club',        city: 'Mamaroneck, NY',      type: 'Full',     since: '2018', handicap: '6.2',  hosting: 'host' },
+  { name: 'Caroline Ashworth',        club: 'Shinnecock Hills Golf Club',   city: 'Southampton, NY',     type: 'Full',     since: '2014', handicap: '11.4', hosting: 'host' },
+  { name: 'Henry Delacroix',          club: 'Cypress Point Club',           city: 'Pebble Beach, CA',    type: 'Senior',   since: '2005', handicap: '9.8',  hosting: 'occasional' },
+  { name: 'Margaret Vanderlin',       club: 'Seminole Golf Club',           city: 'Juno Beach, FL',      type: 'Full',     since: '2020', handicap: '14.1', hosting: 'host' },
+  { name: 'Thomas Caldwell',          club: 'Oakmont Country Club',         city: 'Oakmont, PA',         type: 'Full',     since: '2011', handicap: '4.7',  hosting: 'visit' },
+  { name: 'Elizabeth Prescott',       club: 'The Country Club',             city: 'Brookline, MA',       type: 'Legacy',   since: '1998', handicap: '8.3',  hosting: 'occasional' },
+  { name: 'Richard Holloway',         club: 'Pine Valley Golf Club',        city: 'Pine Valley, NJ',     type: 'Full',     since: '2016', handicap: '7.1',  hosting: 'host' },
+  { name: 'Victoria Sinclair-Hayes',  club: 'Merion Golf Club',             city: 'Ardmore, PA',         type: 'Full',     since: '2021', handicap: '12.6', hosting: 'host' },
+  { name: 'Andrew Kent',              club: 'National Golf Links of America', city: 'Southampton, NY',   type: 'Full',     since: '2013', handicap: '5.4',  hosting: 'occasional' },
+  { name: 'Beatrice Montagu',         club: 'Chicago Golf Club',            city: 'Wheaton, IL',         type: 'Full',     since: '2019', handicap: '16.8', hosting: 'host' },
+  { name: 'Charles W. Abernathy',     club: 'Los Angeles Country Club',     city: 'Los Angeles, CA',     type: 'Senior',   since: '2002', handicap: '10.2', hosting: 'visit' },
+  { name: 'Diana Fairweather',        club: 'The Olympic Club',             city: 'San Francisco, CA',   type: 'Full',     since: '2022', handicap: '13.5', hosting: 'occasional' },
+  { name: 'Edward Sterling',          club: 'Augusta National Golf Club',   city: 'Augusta, GA',         type: 'Full',     since: '2009', handicap: '3.9',  hosting: 'host' },
+  { name: 'Frederick Ashby',          club: 'Baltusrol Golf Club',          city: 'Springfield, NJ',     type: 'Full',     since: '2017', handicap: '8.9',  hosting: 'occasional' },
+  { name: 'Harriet Lindenwood',       club: 'Garden City Golf Club',        city: 'Garden City, NY',     type: 'Full',     since: '2015', handicap: '15.2', hosting: 'host' },
+  { name: 'Nathaniel Crane',          club: 'Pebble Beach Golf Links',      city: 'Pebble Beach, CA',    type: 'Full',     since: '2023', handicap: '7.6',  hosting: 'visit' },
+  { name: 'Isabel Montrose',          club: 'Maidstone Club',               city: 'East Hampton, NY',    type: 'Legacy',   since: '2001', handicap: '18.4', hosting: 'host' },
+  { name: 'Owen Pembroke',            club: 'Friar\u2019s Head',            city: 'Baiting Hollow, NY',  type: 'Full',     since: '2018', handicap: '6.8',  hosting: 'host' },
+  { name: 'Sylvia Harrington',        club: 'Bel-Air Country Club',         city: 'Los Angeles, CA',     type: 'Full',     since: '2020', handicap: '11.9', hosting: 'occasional' },
+  { name: 'William Ashford-Grey',     club: 'Somerset Hills Country Club',  city: 'Bernardsville, NJ',   type: 'Full',     since: '2012', handicap: '9.1',  hosting: 'visit' },
+];
+
+const BADGE_LABEL = {
+  host:       'Happy to host',
+  occasional: 'Occasionally',
+  visit:      'Prefer to visit',
+};
+
+// ----- login -----
+const loginForm = document.getElementById('login-form');
+const emailInput = document.getElementById('login-email');
+const passInput  = document.getElementById('login-password');
+const loginError = document.getElementById('login-error');
+const loginScreen = document.getElementById('login');
+const directoryScreen = document.getElementById('directory');
+const submitBtn = document.getElementById('login-submit');
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = emailInput.value.trim().toLowerCase();
+  const pass  = passInput.value;
+  const ok = (email === DEMO_EMAIL && pass === DEMO_PASSWORD);
+  if (!ok) {
+    loginError.classList.add('show');
+    emailInput.classList.add('error');
+    passInput.classList.add('error');
+    submitBtn.animate(
+      [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+      { duration: 320, easing: 'ease-out' }
+    );
+    return;
+  }
+  // success — swap states
+  loginScreen.classList.add('hidden');
+  directoryScreen.classList.remove('hidden');
+  renderDirectory();
+  window.scrollTo(0, 0);
+});
+
+[emailInput, passInput].forEach(el => {
+  el.addEventListener('input', () => {
+    loginError.classList.remove('show');
+    el.classList.remove('error');
+  });
+});
+
+// Prefill helper (demo only)
+emailInput.placeholder = DEMO_EMAIL;
+
+// ----- sign out -----
+document.getElementById('signout-btn').addEventListener('click', () => {
+  directoryScreen.classList.add('hidden');
+  loginScreen.classList.remove('hidden');
+  emailInput.value = '';
+  passInput.value = '';
+  window.scrollTo(0, 0);
+});
+
+// ----- directory render -----
+let currentFilter = 'all';
+let currentSearch = '';
+
+function renderDirectory() {
+  document.getElementById('member-count').textContent = MEMBERS.length;
+  const clubs = new Set(MEMBERS.map(m => m.club));
+  document.getElementById('club-count').textContent = clubs.size;
+  applyFilters();
+}
+
+function applyFilters() {
+  const grid = document.getElementById('dir-grid');
+  const q = currentSearch.trim().toLowerCase();
+  const filtered = MEMBERS.filter(m => {
+    if (currentFilter !== 'all' && m.hosting !== currentFilter) return false;
+    if (q) {
+      const hay = (m.name + ' ' + m.club + ' ' + m.city).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  document.getElementById('visible-count').textContent = filtered.length;
+  grid.innerHTML = filtered.map((m, i) => `
+    <article class="mcard reveal visible" style="transition-delay:${Math.min(i * 30, 300)}ms">
+      <div class="mcard-top">
+        <h3 class="mcard-name">${escapeHtml(m.name)}</h3>
+        <span class="mcard-verified" title="Verified member">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="0.9"/>
+            <path d="M4.8 8.3L6.8 10.3L11.2 5.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Verified
+        </span>
+      </div>
+      <div class="mcard-club">${escapeHtml(m.club)}</div>
+      <div class="mcard-location">${escapeHtml(m.city)}</div>
+      <div class="mcard-rule"></div>
+      <div class="mcard-meta">
+        <div class="mcard-meta-item">
+          <span class="mcard-meta-label">Membership</span>
+          <span class="mcard-meta-value">${escapeHtml(m.type)}</span>
+        </div>
+        <div class="mcard-meta-item">
+          <span class="mcard-meta-label">Member since</span>
+          <span class="mcard-meta-value">${escapeHtml(m.since)}</span>
+        </div>
+        <div class="mcard-meta-item">
+          <span class="mcard-meta-label">Handicap</span>
+          <span class="mcard-meta-value">${escapeHtml(m.handicap)}</span>
+        </div>
+        <div class="mcard-meta-item" style="align-items:flex-start">
+          <span class="mcard-meta-label">Hosting</span>
+          <span class="mcard-badge ${m.hosting}">
+            <span class="mcard-badge-dot"></span>${BADGE_LABEL[m.hosting]}
+          </span>
+        </div>
+      </div>
+    </article>
+  `).join('') || `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dark-muted);font-size:0.9rem;">No members match those filters.</div>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Search
+document.getElementById('search-input').addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  applyFilters();
+});
+
+// Chips
+document.querySelectorAll('.dir-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.dir-chip').forEach(c => c.classList.remove('is-active'));
+    chip.classList.add('is-active');
+    currentFilter = chip.dataset.filter;
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>
