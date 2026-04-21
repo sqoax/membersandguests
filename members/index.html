@@ -686,7 +686,7 @@ footer {
 const SUPABASE_URL = 'https://upohsbvsycwjsjbtwsll.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_OaX6cAttsvPQHx_Ru82v3Q_r0qXPX2N';
 const INITIAL_HASH = window.location.hash;
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let MEMBERS = [];
 
@@ -733,7 +733,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 // ----- sign out -----
 document.getElementById('signout-btn').addEventListener('click', async () => {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   MEMBERS = [];
   directoryScreen.classList.add('hidden');
   showLoginScreen();
@@ -750,7 +750,7 @@ async function signIn() {
   submitBtn.textContent = 'Signing in...';
   clearLoginError();
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
   submitBtn.disabled = false;
   submitBtn.textContent = 'Sign in';
 
@@ -855,7 +855,7 @@ async function completeInvitePassword() {
   submitBtn.textContent = 'Saving...';
 
   await establishInviteSession();
-  const { error } = await supabase.auth.updateUser({ password });
+  const { error } = await supabaseClient.auth.updateUser({ password });
 
   if (error) {
     submitBtn.disabled = false;
@@ -899,7 +899,7 @@ async function checkInviteCallback() {
 
   if (!accessToken || (type !== 'invite' && type !== 'recovery')) return false;
 
-  await supabase.auth.setSession({
+  await supabaseClient.auth.setSession({
     access_token: accessToken,
     refresh_token: refreshToken
   });
@@ -912,17 +912,17 @@ async function establishInviteSession() {
   const accessToken = hash.get('access_token');
   const refreshToken = hash.get('refresh_token');
   if (accessToken && refreshToken) {
-    await supabase.auth.setSession({
+    await supabaseClient.auth.setSession({
       access_token: accessToken,
       refresh_token: refreshToken
     });
   } else {
-    await supabase.auth.getSession();
+    await supabaseClient.auth.getSession();
   }
 }
 
 async function fetchMembers() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('applications')
     .select('first_name,last_name,club_name,club_location,membership_type,member_since,handicap,willing_to_host,city,created_at')
     .eq('status', 'verified')
@@ -986,7 +986,7 @@ function setDirectoryLoading() {
 async function initAuth() {
   if (await checkInviteCallback()) return;
 
-  const { data } = await supabase.auth.getSession();
+  const { data } = await supabaseClient.auth.getSession();
   if (data && data.session) {
     await showDirectory();
   } else {
