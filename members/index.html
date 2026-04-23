@@ -578,6 +578,179 @@ footer {
   .footer-ig { display: none; }
 }
 
+/* =========================================================
+   NAV GREETING
+   ========================================================= */
+.dir-nav-right {
+  display: flex; align-items: center;
+  gap: 1.1rem;
+}
+.dir-greeting {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+.dir-greeting strong {
+  color: var(--text-cream);
+  font-weight: 400;
+}
+@media (max-width: 520px) {
+  .dir-greeting { display: none; }
+}
+
+/* =========================================================
+   OWN CARD — gold border + "You" badge + edit button
+   ========================================================= */
+.mcard.is-you { border-color: var(--gold); }
+.mcard.is-you:hover { border-color: var(--gold); }
+
+.mcard-top-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+.mcard-you {
+  display: inline-flex; align-items: center;
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--gold);
+  padding: 0.32rem 0.55rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.mcard-edit {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  background: transparent;
+  border: 1px solid var(--gold);
+  padding: 0.6rem 0.95rem;
+  margin-top: 0.25rem;
+  align-self: flex-start;
+  line-height: 1;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.mcard-edit:hover { background: var(--gold); color: var(--navy); }
+
+/* =========================================================
+   EDIT MODAL
+   ========================================================= */
+.edit-modal {
+  position: fixed; inset: 0;
+  background: rgba(26, 39, 68, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.25rem;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.edit-modal-panel {
+  background: var(--cream);
+  border: 1px solid var(--field-border);
+  padding: clamp(1.8rem, 4vw, 2.5rem);
+  width: min(100%, 460px);
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+.edit-modal-title {
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 3.5vw, 2rem);
+  font-weight: 400;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+  line-height: 1.1;
+}
+.edit-modal-sub {
+  font-size: 0.84rem;
+  color: var(--text-dark-muted);
+  margin-bottom: 1.6rem;
+  line-height: 1.55;
+}
+.edit-form { display: flex; flex-direction: column; gap: 1.05rem; }
+.edit-field { display: flex; flex-direction: column; }
+.edit-field-label {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+.edit-input, .edit-select, .edit-textarea {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text-dark);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 0;
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.edit-select { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-dark-muted) 50%), linear-gradient(135deg, var(--text-dark-muted) 50%, transparent 50%); background-position: calc(100% - 18px) center, calc(100% - 13px) center; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 2rem; }
+.edit-input:hover, .edit-select:hover, .edit-textarea:hover { border-color: rgba(26, 39, 68, 0.22); }
+.edit-input:focus, .edit-select:focus, .edit-textarea:focus {
+  outline: none;
+  border-color: var(--field-border-focus);
+  background: rgba(26, 39, 68, 0.01);
+  box-shadow: 0 0 0 3px rgba(26, 39, 68, 0.04);
+}
+.edit-textarea { resize: vertical; min-height: 90px; }
+.edit-charcount {
+  font-size: 0.7rem;
+  color: var(--text-dark-faint);
+  letter-spacing: 0.01em;
+  margin-top: 0.35rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.edit-error {
+  display: none;
+  font-size: 0.78rem;
+  color: var(--danger);
+  padding: 0.6rem 0.9rem;
+  background: rgba(138, 45, 45, 0.06);
+  border-left: 1px solid rgba(138, 45, 45, 0.3);
+  letter-spacing: 0.005em;
+  line-height: 1.5;
+}
+.edit-error.show { display: block; }
+.edit-actions {
+  display: flex; gap: 0.7rem;
+  margin-top: 0.35rem;
+}
+.edit-save, .edit-cancel {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.4rem;
+  line-height: 1;
+  border-radius: 0;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  flex: 1;
+}
+.edit-save { color: var(--navy); background: var(--gold); border: 1px solid var(--gold); }
+.edit-save:hover { background: #d7bb83; border-color: #d7bb83; }
+.edit-save[disabled] { opacity: 0.5; cursor: default; }
+.edit-cancel { color: var(--text-dark-muted); background: transparent; border: 1px solid var(--field-border); }
+.edit-cancel:hover { color: var(--text-dark); border-color: var(--field-border-focus); }
+
 ::selection { background: rgba(201, 169, 110, 0.25); color: var(--navy); }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .field-input-dark:focus-visible, .dir-search-input:focus-visible { outline: none; }
@@ -626,7 +799,10 @@ footer {
   <nav class="dir-nav" aria-label="Primary">
     <div class="dir-nav-inner">
       <a href="/" class="dir-wordmark">Members &amp; Guests</a>
-      <button class="dir-signout" id="signout-btn" type="button">Sign out</button>
+      <div class="dir-nav-right">
+        <span class="dir-greeting" id="dir-greeting" hidden></span>
+        <button class="dir-signout" id="signout-btn" type="button">Sign out</button>
+      </div>
     </div>
   </nav>
 
@@ -681,6 +857,40 @@ footer {
   </footer>
 </div>
 
+<!-- ============================================================
+     EDIT PROFILE MODAL
+     ============================================================ -->
+<div class="edit-modal hidden" id="edit-modal" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+  <div class="edit-modal-panel">
+    <h2 class="edit-modal-title" id="edit-modal-title">Edit profile</h2>
+    <p class="edit-modal-sub">Update how other members see you in the directory.</p>
+    <form class="edit-form" id="edit-form" novalidate>
+      <div class="edit-field">
+        <label class="edit-field-label" for="edit-hosting">Hosting preference</label>
+        <select class="edit-select" id="edit-hosting" name="willing_to_host">
+          <option value="yes">Happy to host</option>
+          <option value="sometimes">Occasionally</option>
+          <option value="no">Prefer to visit</option>
+        </select>
+      </div>
+      <div class="edit-field">
+        <label class="edit-field-label" for="edit-handicap">Handicap</label>
+        <input class="edit-input" id="edit-handicap" name="handicap" type="text" autocomplete="off" placeholder="e.g. 12.4">
+      </div>
+      <div class="edit-field">
+        <label class="edit-field-label" for="edit-notes">Notes</label>
+        <textarea class="edit-textarea" id="edit-notes" name="notes" maxlength="300" rows="4" placeholder="A short note visible to other members."></textarea>
+        <div class="edit-charcount"><span id="edit-notes-count">0</span> / 300</div>
+      </div>
+      <div class="edit-error" id="edit-error" role="alert"></div>
+      <div class="edit-actions">
+        <button class="edit-cancel" type="button" id="edit-cancel">Cancel</button>
+        <button class="edit-save" type="submit" id="edit-save">Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ============================================================ -->
 <script>
 const SUPABASE_URL = 'https://upohsbvsycwjsjbtwsll.supabase.co';
@@ -689,6 +899,7 @@ const INITIAL_HASH = window.location.hash;
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let MEMBERS = [];
+let currentMember = null;
 
 const BADGE_LABEL = {
   host:       'Happy to host',
@@ -735,6 +946,8 @@ loginForm.addEventListener('submit', async (e) => {
 document.getElementById('signout-btn').addEventListener('click', async () => {
   await supabaseClient.auth.signOut();
   MEMBERS = [];
+  currentMember = null;
+  updateGreeting();
   directoryScreen.classList.add('hidden');
   showLoginScreen();
   emailInput.value = '';
@@ -766,8 +979,55 @@ async function showDirectory() {
   loginScreen.classList.add('hidden');
   directoryScreen.classList.remove('hidden');
   setDirectoryLoading();
+  await loadCurrentMember();
+  updateGreeting();
   await fetchMembers();
   window.scrollTo(0, 0);
+}
+
+async function loadCurrentMember() {
+  const { data: sessData } = await supabaseClient.auth.getSession();
+  if (!sessData || !sessData.session) {
+    currentMember = null;
+    return;
+  }
+  const user = sessData.session.user;
+
+  const byAuth = await supabaseClient
+    .from('applications')
+    .select('*')
+    .eq('auth_user_id', user.id)
+    .maybeSingle();
+
+  if (byAuth && byAuth.data) {
+    currentMember = byAuth.data;
+    return;
+  }
+
+  if (user.email) {
+    const byEmail = await supabaseClient
+      .from('applications')
+      .select('*')
+      .ilike('email', user.email)
+      .maybeSingle();
+    currentMember = (byEmail && byEmail.data) ? byEmail.data : null;
+    return;
+  }
+
+  currentMember = null;
+}
+
+function updateGreeting() {
+  const el = document.getElementById('dir-greeting');
+  if (!el) return;
+  const first = currentMember && currentMember.first_name ? String(currentMember.first_name).trim() : '';
+  if (first) {
+    el.innerHTML = 'Hi, <strong>' + escapeHtml(first) + '</strong>';
+    el.hidden = false;
+  } else {
+    el.textContent = '';
+    el.hidden = true;
+  }
 }
 
 function showLoginScreen() {
@@ -865,6 +1125,15 @@ async function completeInvitePassword() {
     return;
   }
 
+  const { data: sessData } = await supabaseClient.auth.getSession();
+  if (sessData && sessData.session && sessData.session.user && sessData.session.user.email) {
+    const u = sessData.session.user;
+    await supabaseClient
+      .from('applications')
+      .update({ auth_user_id: u.id })
+      .ilike('email', u.email);
+  }
+
   history.replaceState(null, document.title, window.location.pathname + window.location.search);
   await showDirectory();
 }
@@ -924,7 +1193,7 @@ async function establishInviteSession() {
 async function fetchMembers() {
   const { data, error } = await supabaseClient
     .from('applications')
-    .select('first_name,last_name,club_name,club_location,membership_type,member_since,handicap,willing_to_host,city,created_at')
+    .select('first_name,last_name,club_name,club_location,membership_type,member_since,handicap,willing_to_host,city,created_at,email')
     .eq('status', 'verified')
     .order('created_at', { ascending: false });
 
@@ -951,7 +1220,8 @@ function mapApplicationToMember(row) {
     type: formatMembershipType(row.membership_type),
     since: row.member_since || '',
     handicap: row.handicap || '',
-    hosting: formatHosting(row.willing_to_host)
+    hosting: formatHosting(row.willing_to_host),
+    email: row.email || ''
   };
 }
 
@@ -1016,17 +1286,23 @@ function applyFilters() {
     return true;
   });
   document.getElementById('visible-count').textContent = filtered.length;
-  grid.innerHTML = filtered.map((m, i) => `
-    <article class="mcard reveal visible" style="transition-delay:${Math.min(i * 30, 300)}ms">
+  const myEmail = currentMember && currentMember.email ? String(currentMember.email).toLowerCase() : '';
+  grid.innerHTML = filtered.map((m, i) => {
+    const isMe = !!(myEmail && m.email && m.email.toLowerCase() === myEmail);
+    return `
+    <article class="mcard reveal visible${isMe ? ' is-you' : ''}" style="transition-delay:${Math.min(i * 30, 300)}ms">
       <div class="mcard-top">
         <h3 class="mcard-name">${escapeHtml(m.name)}</h3>
-        <span class="mcard-verified" title="Verified member">
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="0.9"/>
-            <path d="M4.8 8.3L6.8 10.3L11.2 5.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Verified
-        </span>
+        <div class="mcard-top-right">
+          ${isMe ? '<span class="mcard-you">You</span>' : ''}
+          <span class="mcard-verified" title="Verified member">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="0.9"/>
+              <path d="M4.8 8.3L6.8 10.3L11.2 5.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Verified
+          </span>
+        </div>
       </div>
       <div class="mcard-club">${escapeHtml(m.club)}</div>
       <div class="mcard-location">${escapeHtml(m.city)}</div>
@@ -1051,8 +1327,10 @@ function applyFilters() {
           </span>
         </div>
       </div>
+      ${isMe ? '<button class="mcard-edit" type="button" data-edit-profile>Edit profile</button>' : ''}
     </article>
-  `).join('') || `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dark-muted);font-size:0.9rem;">No members match those filters.</div>`;
+  `;
+  }).join('') || `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dark-muted);font-size:0.9rem;">No members match those filters.</div>`;
 }
 
 function escapeHtml(s) {
@@ -1073,6 +1351,92 @@ document.querySelectorAll('.dir-chip').forEach(chip => {
     currentFilter = chip.dataset.filter;
     applyFilters();
   });
+});
+
+// ----- edit profile modal -----
+const editModal = document.getElementById('edit-modal');
+const editForm = document.getElementById('edit-form');
+const editHosting = document.getElementById('edit-hosting');
+const editHandicap = document.getElementById('edit-handicap');
+const editNotes = document.getElementById('edit-notes');
+const editNotesCount = document.getElementById('edit-notes-count');
+const editError = document.getElementById('edit-error');
+const editSave = document.getElementById('edit-save');
+const editCancel = document.getElementById('edit-cancel');
+
+function openEditModal() {
+  if (!currentMember) return;
+  const hosting = currentMember.willing_to_host;
+  editHosting.value = (hosting === 'yes' || hosting === 'sometimes' || hosting === 'no') ? hosting : 'sometimes';
+  editHandicap.value = currentMember.handicap || '';
+  editNotes.value = currentMember.notes || '';
+  editNotesCount.textContent = editNotes.value.length;
+  editError.classList.remove('show');
+  editError.textContent = '';
+  editSave.disabled = false;
+  editSave.textContent = 'Save changes';
+  editModal.classList.remove('hidden');
+  setTimeout(() => editHosting.focus(), 0);
+}
+
+function closeEditModal() {
+  editModal.classList.add('hidden');
+}
+
+editCancel.addEventListener('click', closeEditModal);
+editModal.addEventListener('click', (e) => {
+  if (e.target === editModal) closeEditModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !editModal.classList.contains('hidden')) closeEditModal();
+});
+editNotes.addEventListener('input', () => {
+  editNotesCount.textContent = editNotes.value.length;
+});
+
+document.getElementById('dir-grid').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-edit-profile]');
+  if (btn) openEditModal();
+});
+
+editForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!currentMember) return;
+
+  const { data: sessData } = await supabaseClient.auth.getSession();
+  if (!sessData || !sessData.session) {
+    editError.textContent = 'Your session has expired. Sign in again to save changes.';
+    editError.classList.add('show');
+    return;
+  }
+
+  editSave.disabled = true;
+  editSave.textContent = 'Saving...';
+  editError.classList.remove('show');
+  editError.textContent = '';
+
+  const update = {
+    willing_to_host: editHosting.value,
+    handicap: editHandicap.value.trim(),
+    notes: editNotes.value.trim()
+  };
+
+  const { error } = await supabaseClient
+    .from('applications')
+    .update(update)
+    .eq('auth_user_id', sessData.session.user.id);
+
+  if (error) {
+    editSave.disabled = false;
+    editSave.textContent = 'Save changes';
+    editError.textContent = error.message || 'Could not save changes. Please try again.';
+    editError.classList.add('show');
+    return;
+  }
+
+  closeEditModal();
+  await loadCurrentMember();
+  await fetchMembers();
 });
 
 initAuth();
