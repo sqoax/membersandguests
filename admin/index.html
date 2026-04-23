@@ -831,7 +831,7 @@ button:disabled {
     button.textContent = 'Approving';
     setStatus('');
 
-    supabase
+    supabaseAdmin
       .from('applications')
       .update({ status: 'verified' })
       .eq('id', app.id)
@@ -866,7 +866,7 @@ button:disabled {
     button.textContent = 'Deleting';
     setStatus('');
 
-    supabase
+    supabaseAdmin
       .from('applications')
       .delete()
       .eq('id', app.id)
