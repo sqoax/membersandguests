@@ -716,7 +716,7 @@ footer {
 <body>
 
 <!-- HEADER -->
-<header class="page-header">
+<header class="page-header" id="page-header">
   <div class="header-inner">
     <a href="/" class="header-wordmark reveal">Members &amp; Guests</a>
     <h1 class="header-title reveal reveal-d1">Apply for Membership</h1>
@@ -1003,7 +1003,7 @@ footer {
       </svg>
     </div>
     <h2 class="confirm-title">Application received.</h2>
-    <p class="confirm-body">Thank you for your interest in Members & Guests. Our team will review your application and reach out within a few business days. We'll contact you at the email address you provided.</p>
+    <p class="confirm-body">Thank you for your interest in Members &amp; Guests. Our team will review your application and reach out within a few business days at <span id="confirm-email" style="color: var(--text-dark); font-weight: 400;"></span>.</p>
     <a href="/" class="confirm-back">Return to Members &amp; Guests</a>
   </div>
 </main>
@@ -1207,6 +1207,11 @@ footer {
     var errorBanner = document.getElementById('submit-error');
 
     function showConfirmation() {
+      var header = document.getElementById('page-header');
+      var emailSpan = document.getElementById('confirm-email');
+      var emailVal = form.querySelector('#email').value.trim();
+      if (emailSpan) emailSpan.textContent = emailVal;
+      if (header) header.style.display = 'none';
       formWrapper.style.display = 'none';
       confirmation.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
