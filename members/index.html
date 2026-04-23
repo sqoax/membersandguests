@@ -1962,15 +1962,35 @@ document.getElementById('dir-grid').addEventListener('click', (e) => {
   if (btn) openThread(btn.getAttribute('data-message-id'));
 });
 
+function appendBubble(body, mine) {
+  let thread = msgBody.querySelector('.msg-thread');
+  if (!thread) {
+    msgBody.innerHTML = '<div class="msg-thread"></div>';
+    thread = msgBody.querySelector('.msg-thread');
+  }
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble ' + (mine ? 'mine' : 'theirs');
+  bubble.textContent = body;
+  thread.appendChild(bubble);
+  msgBody.scrollTop = msgBody.scrollHeight;
+  return bubble;
+}
+
 msgComposer.addEventListener('submit', async (e) => {
   e.preventDefault();
   const body = msgInput.value.trim();
   if (!body) return;
+  msgInput.value = '';
+  const bubble = appendBubble(body, true);
+  bubble.style.opacity = '0.6';
   const ok = await sendMessage(body);
-  if (ok) {
-    msgInput.value = '';
-    await loadThread();
+  if (!ok) {
+    bubble.remove();
+    msgInput.value = body;
+    return;
   }
+  bubble.style.opacity = '';
+  loadThread();
 });
 
 msgInput.addEventListener('keydown', (e) => {
