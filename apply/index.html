@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="/config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *, *::before, *::after {
@@ -925,10 +926,10 @@ footer {
   'use strict';
 
   var supabase = window.supabase.createClient(
-    'https://upohsbvsycwjsjbtwsll.supabase.co',
-    'sb_publishable_OaX6cAttsvPQHx_Ru82v3Q_r0qXPX2N'
+    window.MG_CONFIG.supabaseUrl,
+    window.MG_CONFIG.supabaseKey
   );
-  var WH = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ4ODU1OTk3MzI0Njk2MzczMy91SWNTSUowdjhuRWVVV2ZWY0J3Ni03aWJzQXBaYjdFdHNpNEFocVhPMTAyZkpYajVjeVlsX19zRHVjMVlQTVloSVl2Tg==');
+  var WH = window.MG_CONFIG.wh;
 
   // ---- POPULATE YEAR DROPDOWN ----
   var yearSelect = document.getElementById('member-since');
