@@ -929,7 +929,6 @@ footer {
     'sb_publishable_OaX6cAttsvPQHx_Ru82v3Q_r0qXPX2N'
   );
   var WH = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ4ODU1OTk3MzI0Njk2MzczMy91SWNTSUowdjhuRWVVV2ZWY0J3Ni03aWJzQXBaYjdFdHNpNEFocVhPMTAyZkpYajVjeVlsX19zRHVjMVlQTVloSVl2Tg==');
-  var pageLoadTime = Date.now();
 
   // ---- POPULATE YEAR DROPDOWN ----
   var yearSelect = document.getElementById('member-since');
@@ -1072,13 +1071,12 @@ footer {
       return;
     }
 
-    // Bot checks
+    // Honeypot bot check — bots fill hidden fields. Real users don't.
+    // If honeypot is filled, silently pretend it worked (standard anti-bot practice).
     var honeypot = form.querySelector('#website');
-    var isBot = (honeypot && honeypot.value) || (Date.now() - pageLoadTime < 3000);
-    var lastSend = parseInt(localStorage.getItem('mg_last_apply') || '0', 10);
-    var tooFast = Date.now() - lastSend < 30000;
+    var isBot = honeypot && honeypot.value;
 
-    if (!isBot && !tooFast) {
+    if (!isBot) {
       localStorage.setItem('mg_last_apply', String(Date.now()));
 
       // Gather form data

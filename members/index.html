@@ -944,11 +944,10 @@ async function fetchMembers() {
 
 function mapApplicationToMember(row) {
   const name = [row.first_name, row.last_name].filter(Boolean).join(' ').trim();
-  const locations = [row.club_location, row.city].filter(Boolean);
   return {
     name: name || 'Member',
     club: row.club_name || '',
-    city: Array.from(new Set(locations)).join(' - '),
+    city: row.club_location || '',
     type: formatMembershipType(row.membership_type),
     since: row.member_since || '',
     handicap: row.handicap || '',

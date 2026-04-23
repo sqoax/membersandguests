@@ -288,85 +288,6 @@ nav.scrolled .nav-links {
   }
 }
 
-/* ---- EMAIL CAPTURE ---- */
-.email-capture {
-  display: flex;
-  gap: 0;
-  max-width: 440px;
-  margin: 0 auto;
-  position: relative;
-}
-.email-capture input {
-  flex: 1;
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  font-weight: 300;
-  padding: 0.95rem 1.2rem;
-  background: rgba(248, 245, 240, 0.06);
-  border: 1px solid rgba(248, 245, 240, 0.15);
-  border-right: none;
-  color: var(--text-cream);
-  outline: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  letter-spacing: 0.01em;
-}
-.email-capture input::placeholder {
-  color: rgba(248, 245, 240, 0.3);
-  font-weight: 300;
-}
-.email-capture input:focus {
-  background: rgba(248, 245, 240, 0.09);
-  border-color: rgba(248, 245, 240, 0.3);
-}
-.email-capture button {
-  font-family: var(--sans);
-  font-size: 0.7rem;
-  font-weight: 400;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--navy);
-  background: var(--cream);
-  border: 1px solid var(--cream);
-  padding: 0.95rem 1.8rem;
-  cursor: pointer;
-  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
-  white-space: nowrap;
-  line-height: 1;
-}
-.email-capture button:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--navy);
-}
-.confirmation-msg {
-  display: none;
-  text-align: center;
-  max-width: 440px;
-  margin: 0 auto;
-}
-.confirmation-msg.show {
-  display: block;
-  animation: confirmFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-@keyframes confirmFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.confirmation-msg p {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--gold);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.01em;
-}
-.confirmation-msg span {
-  font-family: var(--sans);
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
 /* ---- HOW IT WORKS ---- */
 .how-it-works {
   padding: clamp(5rem, 10vw, 8rem) 2rem;
@@ -617,18 +538,6 @@ nav.scrolled .nav-links {
   line-height: 1.65;
   letter-spacing: 0.005em;
 }
-.second-cta .email-capture {
-  border-top: 1px solid rgba(248, 245, 240, 0.1);
-  padding-top: 2rem;
-}
-.second-cta .email-capture input {
-  background: rgba(248, 245, 240, 0.07);
-  border-color: rgba(248, 245, 240, 0.15);
-}
-.second-cta .email-capture input:focus {
-  background: rgba(248, 245, 240, 0.1);
-  border-color: rgba(248, 245, 240, 0.3);
-}
 .second-cta .small-note {
   font-size: 0.75rem;
   color: rgba(248, 245, 240, 0.35);
@@ -703,26 +612,6 @@ footer {
   }
   .hero p {
     margin-bottom: 2.2rem;
-  }
-  .email-capture {
-    flex-direction: column;
-    gap: 0;
-    max-width: 100%;
-  }
-  .email-capture input {
-    border-right: 1px solid rgba(248, 245, 240, 0.15);
-    border-bottom: 1px solid rgba(248, 245, 240, 0.15);
-  }
-  .email-capture input:focus {
-    border-right: 1px solid rgba(248, 245, 240, 0.3);
-    border-bottom: 1px solid rgba(248, 245, 240, 0.3);
-  }
-  .email-capture button {
-    padding: 1rem 1.8rem;
-    border-top: none;
-  }
-  .second-cta .email-capture {
-    padding-top: 1.5rem;
   }
   .how-it-works {
     padding: 4rem 1.5rem;

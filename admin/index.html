@@ -556,6 +556,33 @@ button:disabled {
   var activeTab = 'pending';
   var isLoading = false;
 
+  // Human-readable labels — must stay in sync with /apply form.
+  var MEMBERSHIP_LABELS = {
+    full: 'Full / Equity',
+    golf: 'Golf Only',
+    'social-golf': 'Social with Golf',
+    legacy: 'Legacy / Family',
+    'non-resident': 'Non-Resident',
+    other: 'Other'
+  };
+  var HOST_LABELS = {
+    yes: 'Happy to host',
+    sometimes: 'Occasionally',
+    no: 'Prefer to visit'
+  };
+  var HEARD_LABELS = {
+    friend: 'Friend or fellow member',
+    instagram: 'Instagram',
+    search: 'Search engine',
+    article: 'Article or press',
+    'pro-shop': 'Pro shop or club staff',
+    other: 'Other'
+  };
+
+  function prettyMembership(v) { return MEMBERSHIP_LABELS[v] || v; }
+  function prettyHost(v) { return HOST_LABELS[v] || v; }
+  function prettyHeard(v) { return HEARD_LABELS[v] || v; }
+
   function unlock() {
     sessionStorage.setItem(UNLOCKED_KEY, 'true');
     loginScreen.classList.add('hidden');
@@ -687,14 +714,15 @@ button:disabled {
     details.className = 'detail-list';
     details.appendChild(createDetail('Club', app.club_name));
     details.appendChild(createDetail('Location', app.club_location));
-    details.appendChild(createDetail('Membership', app.membership_type));
+    details.appendChild(createDetail('Membership', prettyMembership(app.membership_type)));
     details.appendChild(createDetail('Member Since', app.member_since));
     details.appendChild(createDetail('Handicap', app.handicap));
-    details.appendChild(createDetail('Host', app.willing_to_host));
+    details.appendChild(createDetail('Host', prettyHost(app.willing_to_host)));
     details.appendChild(createDetail('City', app.city));
     details.appendChild(createDetail('Interest', app.interest, true));
     details.appendChild(createDetail('Referral', app.referral_name));
-    details.appendChild(createDetail('How Heard', app.how_heard));
+    details.appendChild(createDetail('Invite Code', app.referral_code));
+    details.appendChild(createDetail('How Heard', prettyHeard(app.how_heard)));
 
     var actions = document.createElement('div');
     actions.className = 'card-actions';
@@ -826,6 +854,11 @@ button:disabled {
   function deleteApplication(app, button) {
     if (!app.id) {
       setStatus('This row is missing an id, so it cannot be deleted from the dashboard.', true);
+      return;
+    }
+
+    var name = getFullName(app);
+    if (!window.confirm('Delete application from ' + name + '?\n\nThis cannot be undone.')) {
       return;
     }
 
