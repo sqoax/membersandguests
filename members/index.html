@@ -1210,6 +1210,9 @@ loginForm.addEventListener('submit', async (e) => {
 
 // ----- sign out -----
 document.getElementById('signout-btn').addEventListener('click', async () => {
+  if (typeof teardownThreadChannel === 'function') teardownThreadChannel();
+  if (typeof teardownInboxChannel === 'function') teardownInboxChannel();
+  if (typeof closeDrawer === 'function') closeDrawer();
   await supabaseClient.auth.signOut();
   MEMBERS = [];
   currentMember = null;
@@ -1732,6 +1735,50 @@ const messagesNavBtn = document.getElementById('messages-btn');
 
 let msgView = 'inbox';
 let currentConvoId = null;
+let threadChannel = null;
+let inboxChannel = null;
+
+function teardownThreadChannel() {
+  if (threadChannel) {
+    supabaseClient.removeChannel(threadChannel);
+    threadChannel = null;
+  }
+}
+function teardownInboxChannel() {
+  if (inboxChannel) {
+    supabaseClient.removeChannel(inboxChannel);
+    inboxChannel = null;
+  }
+}
+function subscribeThread(convoId) {
+  teardownThreadChannel();
+  if (!convoId) return;
+  threadChannel = supabaseClient
+    .channel('thread-' + convoId)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages',
+      filter: 'conversation_id=eq.' + convoId
+    }, () => { loadThread(); })
+    .subscribe();
+}
+function subscribeInbox() {
+  teardownInboxChannel();
+  if (!currentMember || !currentMember.id) return;
+  inboxChannel = supabaseClient
+    .channel('inbox-' + currentMember.id)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages'
+    }, () => {
+      if (msgView === 'inbox' && msgDrawer.classList.contains('open')) {
+        openInbox();
+      }
+    })
+    .subscribe();
+}
 
 function openDrawer() {
   msgDrawer.classList.add('open');
@@ -1742,6 +1789,8 @@ function closeDrawer() {
   msgDrawer.classList.remove('open');
   msgBackdrop.classList.remove('open');
   msgDrawer.setAttribute('aria-hidden', 'true');
+  teardownThreadChannel();
+  teardownInboxChannel();
 }
 
 function setInboxHeader() {
@@ -1768,6 +1817,8 @@ async function openInbox() {
   if (!currentMember || !currentMember.id) return;
   msgView = 'inbox';
   currentConvoId = null;
+  teardownThreadChannel();
+  subscribeInbox();
   setInboxHeader();
   openDrawer();
   msgBody.innerHTML = '<div class="msg-inbox-empty">Loading…</div>';
@@ -1898,6 +1949,8 @@ async function openThread(otherId) {
     convo = created;
   }
   currentConvoId = convo.id;
+  teardownInboxChannel();
+  subscribeThread(currentConvoId);
   await loadThread();
   setTimeout(() => msgInput.focus(), 0);
 }
