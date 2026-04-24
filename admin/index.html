@@ -452,6 +452,218 @@ button:disabled {
   margin-bottom: 0.35rem;
 }
 
+.thread-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.thread-card {
+  background: rgba(255, 255, 255, 0.48);
+  border: 1px solid var(--field-border);
+  padding: 1.15rem 1.3rem;
+  display: grid;
+  gap: 0.55rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.thread-card:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: var(--field-border-focus);
+}
+
+.thread-pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.thread-names {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.25;
+}
+
+.thread-preview {
+  color: var(--text-dark);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thread-preview.empty {
+  color: var(--text-dark-muted);
+  font-style: italic;
+}
+
+.thread-meta {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  color: var(--text-dark-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.msg-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 39, 68, 0.56);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.msg-modal-panel {
+  width: min(100%, 640px);
+  max-height: min(92vh, 780px);
+  background: var(--cream);
+  border: 1px solid var(--field-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-modal-head {
+  padding: 1.1rem 1.3rem;
+  border-bottom: 1px solid var(--field-border);
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.msg-modal-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.msg-modal-sub {
+  color: var(--text-dark-muted);
+  font-size: 0.76rem;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+}
+
+.msg-modal-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--field-border);
+  min-height: 32px;
+  padding: 0 0.7rem;
+  color: var(--text-dark-muted);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: var(--text-dark);
+  border-color: var(--field-border-focus);
+}
+
+.icon-btn.danger {
+  color: var(--danger);
+  border-color: rgba(138, 45, 45, 0.28);
+}
+
+.icon-btn.danger:hover {
+  color: var(--text-cream);
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.msg-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.2rem 1.3rem;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.msg-row {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--field-border);
+}
+
+.msg-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.msg-row-head {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+
+.msg-row-sender {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  color: var(--text-dark);
+}
+
+.msg-row-time {
+  color: var(--text-dark-muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.msg-row-del {
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  color: var(--text-dark-muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+}
+
+.msg-row-del:hover {
+  color: var(--danger);
+}
+
+.msg-row-body {
+  color: var(--text-dark);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.msg-modal-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-dark-muted);
+  font-size: 0.85rem;
+}
+
 @media (max-width: 720px) {
   .admin-title-row,
   .card-top {
@@ -518,11 +730,28 @@ button:disabled {
     <div class="tabs" role="tablist" aria-label="Application status">
       <button class="tab-btn active" id="pending-tab" type="button" role="tab" aria-selected="true" data-tab="pending">Pending <span id="pending-count">0</span></button>
       <button class="tab-btn" id="approved-tab" type="button" role="tab" aria-selected="false" data-tab="verified">Approved <span id="approved-count">0</span></button>
+      <button class="tab-btn" id="messages-tab" type="button" role="tab" aria-selected="false" data-tab="messages">Messages <span id="messages-count">0</span></button>
     </div>
     <p class="status-line" id="status-line" aria-live="polite"></p>
     <div id="content"></div>
   </main>
 </section>
+
+<div class="msg-modal hidden" id="msg-modal" role="dialog" aria-modal="true" aria-labelledby="msg-modal-title">
+  <div class="msg-modal-panel">
+    <div class="msg-modal-head">
+      <div>
+        <div class="msg-modal-title" id="msg-modal-title">Conversation</div>
+        <div class="msg-modal-sub" id="msg-modal-sub"></div>
+      </div>
+      <div class="msg-modal-actions">
+        <button class="icon-btn danger" id="msg-modal-delete" type="button">Delete thread</button>
+        <button class="icon-btn" id="msg-modal-close" type="button">Close</button>
+      </div>
+    </div>
+    <div class="msg-modal-body" id="msg-modal-body"></div>
+  </div>
+</div>
 
 <script>
 (function() {
@@ -567,12 +796,22 @@ button:disabled {
   var tabButtons = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
   var pendingCount = document.getElementById('pending-count');
   var approvedCount = document.getElementById('approved-count');
+  var messagesCount = document.getElementById('messages-count');
   var statusLine = document.getElementById('status-line');
   var content = document.getElementById('content');
+  var msgModal = document.getElementById('msg-modal');
+  var msgModalTitle = document.getElementById('msg-modal-title');
+  var msgModalSub = document.getElementById('msg-modal-sub');
+  var msgModalBody = document.getElementById('msg-modal-body');
+  var msgModalClose = document.getElementById('msg-modal-close');
+  var msgModalDelete = document.getElementById('msg-modal-delete');
 
   var applications = [];
+  var threads = [];
+  var currentThreadId = null;
   var activeTab = 'pending';
   var isLoading = false;
+  var isLoadingThreads = false;
 
   // Human-readable labels — must stay in sync with /apply form.
   var MEMBERSHIP_LABELS = {
@@ -606,6 +845,7 @@ button:disabled {
     loginScreen.classList.add('hidden');
     dashboard.classList.remove('hidden');
     fetchApplications();
+    fetchThreads();
   }
 
   function showLogin() {
@@ -652,6 +892,128 @@ button:disabled {
   function renderCounts() {
     pendingCount.textContent = String(getRowsForStatus('pending').length);
     approvedCount.textContent = String(getRowsForStatus('verified').length);
+    messagesCount.textContent = String(threads.length);
+  }
+
+  function fetchThreads() {
+    isLoadingThreads = true;
+    if (activeTab === 'messages') {
+      setStatus('Loading conversations...');
+      render();
+    }
+    callAdmin('list_threads', {}).then(function(result) {
+      isLoadingThreads = false;
+      if (!result.ok || !result.data || !Array.isArray(result.data.data)) {
+        if (activeTab === 'messages') {
+          setStatus((result.data && result.data.error) || 'Could not load conversations.', true);
+        }
+        threads = [];
+      } else {
+        threads = result.data.data;
+        if (activeTab === 'messages') setStatus('');
+      }
+      render();
+    }, function() {
+      isLoadingThreads = false;
+      if (activeTab === 'messages') setStatus('Network error loading conversations.', true);
+      render();
+    });
+  }
+
+  function formatDateTime(value) {
+    if (!value) return '';
+    var date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+  }
+
+  function truncate(text, n) {
+    if (!text) return '';
+    var s = String(text).replace(/\s+/g, ' ').trim();
+    return s.length > n ? s.slice(0, n - 1) + '\u2026' : s;
+  }
+
+  function createThreadCard(thread) {
+    var card = document.createElement('button');
+    card.className = 'thread-card';
+    card.type = 'button';
+    card.setAttribute('data-thread-id', thread.id);
+
+    var pair = document.createElement('div');
+    pair.className = 'thread-pair';
+    var names = document.createElement('div');
+    names.className = 'thread-names';
+    names.textContent = thread.member_a.name + '  \u00b7  ' + thread.member_b.name;
+    var pill = document.createElement('div');
+    pill.className = 'date-pill';
+    pill.textContent = formatDate(thread.last_activity_at);
+    pair.appendChild(names);
+    pair.appendChild(pill);
+
+    var preview = document.createElement('div');
+    if (thread.last_message) {
+      var who = thread.last_message.sender_id === thread.member_a.id ? thread.member_a.name : thread.member_b.name;
+      preview.className = 'thread-preview';
+      preview.textContent = who + ': ' + truncate(thread.last_message.body, 140);
+    } else {
+      preview.className = 'thread-preview empty';
+      preview.textContent = 'No messages yet.';
+    }
+
+    var meta = document.createElement('div');
+    meta.className = 'thread-meta';
+    var clubs = [thread.member_a.club, thread.member_b.club].filter(Boolean).join(' \u00b7 ');
+    if (clubs) {
+      var clubSpan = document.createElement('span');
+      clubSpan.textContent = clubs;
+      meta.appendChild(clubSpan);
+    }
+    var countSpan = document.createElement('span');
+    countSpan.textContent = thread.message_count + ' ' + (thread.message_count === 1 ? 'message' : 'messages');
+    meta.appendChild(countSpan);
+
+    card.appendChild(pair);
+    card.appendChild(preview);
+    card.appendChild(meta);
+    card.addEventListener('click', function() {
+      openThread(thread.id);
+    });
+    return card;
+  }
+
+  function renderThreadsTab() {
+    if (isLoadingThreads && !threads.length) {
+      var loading = document.createElement('div');
+      loading.className = 'loading-state';
+      loading.textContent = 'Loading conversations...';
+      content.appendChild(loading);
+      return;
+    }
+    if (!threads.length) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-state';
+      var title = document.createElement('h2');
+      title.className = 'empty-title';
+      title.textContent = 'No conversations yet.';
+      var copy = document.createElement('p');
+      copy.textContent = 'Conversations between members will appear here.';
+      empty.appendChild(title);
+      empty.appendChild(copy);
+      content.appendChild(empty);
+      return;
+    }
+    var grid = document.createElement('div');
+    grid.className = 'thread-grid';
+    threads.forEach(function(t) {
+      grid.appendChild(createThreadCard(t));
+    });
+    content.appendChild(grid);
   }
 
   function setActiveTab(tab) {
@@ -796,6 +1158,11 @@ button:disabled {
   function render() {
     renderCounts();
     content.textContent = '';
+
+    if (activeTab === 'messages') {
+      renderThreadsTab();
+      return;
+    }
 
     if (isLoading) {
       var loading = document.createElement('div');
@@ -962,7 +1329,141 @@ button:disabled {
     });
   });
 
-  refreshBtn.addEventListener('click', fetchApplications);
+  refreshBtn.addEventListener('click', function() {
+    fetchApplications();
+    fetchThreads();
+  });
+
+  function openThread(threadId) {
+    currentThreadId = threadId;
+    msgModal.classList.remove('hidden');
+    msgModalTitle.textContent = 'Conversation';
+    msgModalSub.textContent = '';
+    msgModalBody.innerHTML = '<div class="msg-modal-empty">Loading\u2026</div>';
+
+    callAdmin('get_thread', { id: threadId }).then(function(result) {
+      if (!result.ok || !result.data || !result.data.data) {
+        msgModalBody.innerHTML = '<div class="msg-modal-empty">Could not load conversation.</div>';
+        return;
+      }
+      renderThread(result.data.data);
+    }, function() {
+      msgModalBody.innerHTML = '<div class="msg-modal-empty">Network error loading conversation.</div>';
+    });
+  }
+
+  function renderThread(thread) {
+    msgModalTitle.textContent = thread.member_a.name + '  \u00b7  ' + thread.member_b.name;
+    var subParts = [];
+    if (thread.member_a.club) subParts.push(thread.member_a.name + ' \u2014 ' + thread.member_a.club);
+    if (thread.member_b.club) subParts.push(thread.member_b.name + ' \u2014 ' + thread.member_b.club);
+    msgModalSub.textContent = subParts.join('   \u00b7   ');
+
+    if (!thread.messages || !thread.messages.length) {
+      msgModalBody.innerHTML = '<div class="msg-modal-empty">No messages in this conversation.</div>';
+      return;
+    }
+
+    msgModalBody.innerHTML = '';
+    thread.messages.forEach(function(m) {
+      var sender = m.sender_id === thread.member_a.id ? thread.member_a :
+                   m.sender_id === thread.member_b.id ? thread.member_b :
+                   { name: 'Unknown' };
+      var row = document.createElement('div');
+      row.className = 'msg-row';
+      row.setAttribute('data-message-id', m.id);
+
+      var head = document.createElement('div');
+      head.className = 'msg-row-head';
+      var senderEl = document.createElement('div');
+      senderEl.className = 'msg-row-sender';
+      senderEl.textContent = sender.name;
+      var timeEl = document.createElement('div');
+      timeEl.className = 'msg-row-time';
+      timeEl.textContent = formatDateTime(m.created_at);
+      var delBtn = document.createElement('button');
+      delBtn.className = 'msg-row-del';
+      delBtn.type = 'button';
+      delBtn.textContent = 'Delete';
+      delBtn.addEventListener('click', function() {
+        deleteMessage(m.id, row, delBtn);
+      });
+      head.appendChild(senderEl);
+      head.appendChild(timeEl);
+      head.appendChild(delBtn);
+
+      var body = document.createElement('div');
+      body.className = 'msg-row-body';
+      body.textContent = m.body;
+
+      row.appendChild(head);
+      row.appendChild(body);
+      msgModalBody.appendChild(row);
+    });
+  }
+
+  function closeThreadModal() {
+    msgModal.classList.add('hidden');
+    currentThreadId = null;
+    msgModalBody.innerHTML = '';
+  }
+
+  function deleteMessage(messageId, rowEl, btn) {
+    if (!messageId) return;
+    if (!window.confirm('Delete this message? This cannot be undone.')) return;
+    btn.disabled = true;
+    var prev = btn.textContent;
+    btn.textContent = 'Deleting';
+    callAdmin('delete_message', { id: messageId }).then(function(result) {
+      if (!result.ok) {
+        btn.disabled = false;
+        btn.textContent = prev;
+        alert((result.data && result.data.error) || 'Could not delete message.');
+        return;
+      }
+      if (rowEl && rowEl.parentNode) rowEl.parentNode.removeChild(rowEl);
+      if (!msgModalBody.querySelector('.msg-row')) {
+        msgModalBody.innerHTML = '<div class="msg-modal-empty">No messages in this conversation.</div>';
+      }
+      fetchThreads();
+    }, function() {
+      btn.disabled = false;
+      btn.textContent = prev;
+      alert('Network error. Could not delete message.');
+    });
+  }
+
+  function deleteThread() {
+    if (!currentThreadId) return;
+    if (!window.confirm('Delete this entire conversation and all its messages? This cannot be undone.')) return;
+    msgModalDelete.disabled = true;
+    var prev = msgModalDelete.textContent;
+    msgModalDelete.textContent = 'Deleting\u2026';
+    callAdmin('delete_thread', { id: currentThreadId }).then(function(result) {
+      msgModalDelete.disabled = false;
+      msgModalDelete.textContent = prev;
+      if (!result.ok) {
+        alert((result.data && result.data.error) || 'Could not delete conversation.');
+        return;
+      }
+      closeThreadModal();
+      fetchThreads();
+      setStatus('Conversation deleted.');
+    }, function() {
+      msgModalDelete.disabled = false;
+      msgModalDelete.textContent = prev;
+      alert('Network error. Could not delete conversation.');
+    });
+  }
+
+  msgModalClose.addEventListener('click', closeThreadModal);
+  msgModalDelete.addEventListener('click', deleteThread);
+  msgModal.addEventListener('click', function(e) {
+    if (e.target === msgModal) closeThreadModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !msgModal.classList.contains('hidden')) closeThreadModal();
+  });
 
   if (sessionStorage.getItem(UNLOCKED_KEY) === 'true' && getAdminPassword()) {
     unlock();
